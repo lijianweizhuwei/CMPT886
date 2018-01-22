@@ -55,12 +55,12 @@ error bit stream   ..........1......111............1...   this is the error bi
 ```
 But how can we detect the error `err`? What if we use `E2=T0∧¬L1`:
 
-``
-   input data      <My> <name] <is> err <jianwei> <>li>
+```
+   input data      <My> <name] <is> err <jianwei> <>li>
    T0=L0+Alpha     ...1......1....1.111.........1..111.
    L1=T0∧¬Alpha    ...1......1....1.............1..1...
     E2=T0∧¬L1      .................111.............11. 
-``
+```
 
 The error bit stream `E2` is wrong. This is because the error `<>` which is detected by `E0` has affect on the following stream `li>`. Which indicates we need to handle the errors step by step, we should remove the error detected by `E0`, then consider the error detected by `E2`.
 So the correct order should be:
