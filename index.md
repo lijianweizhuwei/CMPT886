@@ -3,13 +3,14 @@
 We know that **Parabix** uses the *basis bit streams* to construct *character-class bit streams* in which each 1 bit indicates the presence of a significant character (or class of characters) in the parsing process. The *advance* operation is mentioned in class:
 
 ```
-input data   <My><name><is><><jianwei>
-    C        1...1.....1...1.1........   character-class bit stream of <
-Advance(C)   .1...1.....1...1.1.......   character-class bit stream after advance
+input data   <My> <name] <is> <> <jianwei>
+    C0       1....1......1....1..1........   character-class bit stream of <
+Advance(C0)  .1....1......1....1..1.......   character-class bit stream after advance
 ```
+The bit after advance is called cursor bit.
 
 ### ScanThru operation
-
+*ScanThru* accepts two input parameters, *c* and *m*, where *c* denotes an initial set of cursor positions, and *m* denotes a set of “marked” lexical item positions. The ScanThru operation determines the cursor positions immediately following any run of marker positions by calculating (c+m)^¬m.
 
 You all can use the [editor on GitHub](https://github.com/lijianweizhuwei/jianweiCMPT886/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
 
