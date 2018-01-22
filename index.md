@@ -1,6 +1,10 @@
 # Error Bit Stream
 
-In class, we know that Parabix uses the ***basis bit streams*** to construct ***character-class bit streams*** in which each 1 bit indicates the presence of a significant character (or class of characters) in the parsing process.
+We know that Parabix uses the ***basis bit streams*** to construct ***character-class bit streams*** in which each 1 bit indicates the presence of a significant character (or class of characters) in the parsing process. Like mentioned in class:
+* input data a453z--b3z--az--a12949z--ca22z7--
+*     C      1-----------1---1---------1------
+* Advance(C) -1-----------1---1---------1-----
+
 You all can use the [editor on GitHub](https://github.com/lijianweizhuwei/jianweiCMPT886/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
 
 Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
