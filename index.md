@@ -24,6 +24,7 @@ The bit after advance is called cursor bit.
 ```
  input data     <My> <name] <is> err <jianwei> <>li>
      C0         1....1......1........1.........1....   character-class bit stream of <
+     C1         ...1...........1.............1..1..1   character-class bit stream of >
 L0=advance(C0)  .1....1......1........1.........1...   character-class bit stream after advance
     Alpha       .11...1111...11..111..1111111....11.   character-class bit stream of alphabet
 ```
@@ -38,13 +39,6 @@ Let's calculate `L1=ScanThru(L0,Alpha)=(L0+Alpha)∧¬Alpha`:
 ```
 
 Now we can detect the errors:
-
-```
-                <My> <name] <is> err <jianwei> <>li>
-     C1         ...1...........1.............1..1..1      character-class bit stream of >
-L0=advance(C0)  .1....1......1........1.........1...
-   ¬Alpha       1..111....111..11...11.......1111..1
-```
 
 ```
   E0=L0∧¬Alpha  ................................1...      detect the error `>`
