@@ -37,14 +37,14 @@ Let's calculate `L1=ScanThru(L0,Alpha)=(L0+Alpha)∧¬Alpha`:
  L1=T0∧¬Alpha   ...1......1....1.............1..1...
 ```
 
+Now we can detect the errors:
+
 ```
                 <My> <name] <is> err <jianwei> <>li>
      C1         ...1...........1.............1..1..1      character-class bit stream of >
 L0=advance(C0)  .1....1......1........1.........1...
    ¬Alpha       1..111....111..11...11.......1111..1
 ```
-
-Now we can detect the errors:
 
 ```
  E0=L0∧¬Alpha   ................................1...
