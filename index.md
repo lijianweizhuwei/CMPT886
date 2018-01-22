@@ -3,7 +3,9 @@
 We know that Parabix uses the ***basis bit streams*** to construct ***character-class bit streams*** in which each 1 bit indicates the presence of a significant character (or class of characters) in the parsing process. The *advance* operation is mentioned in class:
 
 input data a453z--b3z--az--a12949z--ca22z7--
+
     C      1-----------1---1---------1------  **character-class bit stream of a**
+
 Advance(C) -1-----------1---1---------1-----  **character-class bit stream after advance operation**
 
 You all can use the [editor on GitHub](https://github.com/lijianweizhuwei/jianweiCMPT886/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
