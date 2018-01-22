@@ -88,5 +88,6 @@ L0=advance(C0)  .1....1......1........1.........1..   character-class bit strea
    E2=T0∧¬L1    .................111...............   detect the error `err`
 ```
 
-Now we detect all the errors in correct order, but this make the detection more complicated. So how can we reduce the complexity and decide the correct priorities of different kinds of errors?
+Now we detect all the errors in correct order, but this make the detection more complicated. So how can we ***reduce the complexity*** and ***decide the correct priorities*** of different kinds of errors?
+
 I don't know yet... Need futher consideration....
