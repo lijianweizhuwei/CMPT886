@@ -10,7 +10,7 @@ Advance(C0)  .1....1......1....1..1.......   character-class bit stream after a
 The bit after advance is called cursor bit.
 
 ### ScanThru operation
-*ScanThru* accepts two input parameters, *c* and *m*, where *c* denotes an initial set of cursor positions, and *m* denotes a set of “marked” lexical item positions. The ScanThru operation determines the cursor positions immediately following any run of marker positions by calculating `(c+m)^¬m`.
+*ScanThru* is an operation in **Parabix** that sets the cursor position immediately after a run of marker position in the input bit stream. *ScanThru* accepts two input parameters, *c* and *m*, where *c* denotes an initial set of cursor positions, and *m* denotes a set of “marked” lexical item positions. The ScanThru operation determines the cursor positions immediately following any run of marker positions by calculating `(c+m)∧¬m`.
 
 You all can use the [editor on GitHub](https://github.com/lijianweizhuwei/jianweiCMPT886/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
 
