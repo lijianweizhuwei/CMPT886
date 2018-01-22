@@ -72,7 +72,7 @@ So the correct order should be:
 L0=advance(C0)  .1....1......1........1.........1...   character-class bit stream after advance
     Alpha       .11...1111...11..111..1111111....11.   character-class bit stream of alphabet
    ¬Alpha       1..111....111..11...11.......1111..1
- ###E0=L0∧¬Alpha   ................................1...   detect the error `>`###
+ ***E0=L0∧¬Alpha   ................................1...   detect the error `>`***
  
                     Correct the error
 
