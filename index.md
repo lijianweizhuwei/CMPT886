@@ -1,11 +1,19 @@
 # Error Bit Stream
 
+Suppose we have the regular expression `<[a-zA-Z]+>` and wish to find all instance which are not in this pattern and regard them as errors, then form the error bit stream. For example:
+
+```
+   input data      <My> <name] <is> err <jianwei> <>li>
+error bit stream   ..........1......111............1...
+```
+
+# How can we achieve it?
 We know that **Parabix** uses the *basis bit streams* to construct *character-class bit streams* in which each 1 bit indicates the presence of a significant character (or class of characters) in the parsing process. The *advance* operation is mentioned in class:
 
 ```
- input data     <My> <name] <is> <> <jianwei>
-     C0         1....1......1....1..1........   character-class bit stream of <
-L0=advance(C0)  .1....1......1....1..1.......   character-class bit stream after advance
+ input data     <My> <name] <is> err <jianwei> <>li>
+     C0         1....1......1........1.........1....   character-class bit stream of <
+L0=advance(C0)  .1....1......1........1.........1...   character-class bit stream after advance
 ```
 The bit after advance is called cursor bit.
 
