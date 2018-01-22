@@ -41,6 +41,7 @@ Let's calculate `L1=ScanThru(L0,Alpha)=(L0+Alpha)∧¬Alpha`:
 Now we can detect the errors:
 
 ```
+                <My> <name] <is> err <jianwei> <>li> 
   E0=L0∧¬Alpha  ................................1...      detect the error `>`
    E1=L1∧¬C1    ..........1.........................      detect the error `]`
 ```
