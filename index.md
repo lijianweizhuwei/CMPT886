@@ -3,14 +3,29 @@
 We know that **Parabix** uses the *basis bit streams* to construct *character-class bit streams* in which each 1 bit indicates the presence of a significant character (or class of characters) in the parsing process. The *advance* operation is mentioned in class:
 
 ```
-input data   <My> <name] <is> <> <jianwei>
-    C0       1....1......1....1..1........   character-class bit stream of <
-Advance(C0)  .1....1......1....1..1.......   character-class bit stream after advance
+ input data     <My> <name] <is> <> <jianwei>
+     C0         1....1......1....1..1........   character-class bit stream of <
+L0=advance(C0)  .1....1......1....1..1.......   character-class bit stream after advance
 ```
 The bit after advance is called cursor bit.
 
 ### ScanThru operation
 *ScanThru* is an operation in **Parabix** that sets the cursor position immediately after a run of marker position in the input bit stream. *ScanThru* accepts two input parameters, *c* and *m*, where *c* denotes an initial set of cursor positions, and *m* denotes a set of “marked” lexical item positions. The ScanThru operation determines the cursor positions immediately following any run of marker positions by calculating `(c+m)∧¬m`.
+
+```
+ input data     <My> <name] <is> err <> <jianwei>
+     C0         1....1......1........1..1........   character-class bit stream of <
+L0=advance(C0)  .1....1......1........1..1.......   character-class bit stream after advance
+    Alpha       .11...1111...11..111.....1111111.   character-class bit stream of alphabet
+   
+   let's calculate L1=ScanThru(L0,Alpha)=(L0+Alpha)∧¬Alpha
+   
+                <My> <name] <is> err <> <jianwei>  
+  L0+Alpha      ...1......1....1.111..1.........1
+   ¬Alpha       1..111....111..11...11111.......1
+     L1         ...1......1....1......1.........1
+```
+    C1       ...1...........1..1.........1   character-class bit stream of >
 
 You all can use the [editor on GitHub](https://github.com/lijianweizhuwei/jianweiCMPT886/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
 
