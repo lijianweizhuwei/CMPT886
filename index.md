@@ -6,6 +6,7 @@ Suppose we have the regular expression `<[a-zA-Z]+>` and wish to find all instan
    input data      <My> <name] <is> err <jianwei> <>li>
 error bit stream   ..........1......111............1...
 ```
+There are three errors, `]`, `err` and `<>`, the error bit stream we want it shown as above.
 
 # How can we achieve it?
 We know that **Parabix** uses the *basis bit streams* to construct *character-class bit streams* in which each 1 bit indicates the presence of a significant character (or class of characters) in the parsing process. The *advance* operation is mentioned in class:
