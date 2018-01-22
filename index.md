@@ -8,7 +8,7 @@ error bit stream   ..........1......111............1...
 ```
 There are three errors, `]`, `err` and `<>`, the error bit stream we want it shown as above.
 
-# How can we achieve it?
+### How can we achieve it?
 We know that **Parabix** uses the *basis bit streams* to construct *character-class bit streams* in which each 1 bit indicates the presence of a significant character (or class of characters) in the parsing process. The *advance* operation is mentioned in class:
 
 ```
