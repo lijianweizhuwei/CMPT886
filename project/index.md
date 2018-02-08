@@ -1,4 +1,19 @@
 # SIMD Legalization and SWAR
+## Alternative SIMD Legalization Approaches
+
+### introduction
+![Alt text](./SelectionDAG.png)
+LLVM uses a SelectionDAG-based instruction selector, which translates the LLVM IR code to target machine instructions.
+Our project focus on ‘SelectionDAG LegalizeTypes Phase’, which in charge of converting a DAG to only use the types that are natively supported by the target.
+
+### The ways of legalization
+The type legalization phase transforms the program so that all of the calculations in the program operate on legal types, meaning that they can fit into a machine register. After type legalization, the operation legalization phase ensures that all of the operations in the program can be implemented by a single machine instruction.
+Typical legalization phase has three ways to legalize vector types: Scalarization, Vector Widening and Vector Element Promotion.
+#### Scalarization
+Splits the vector into multiple scalars. It is often used for the transformation from
+
+
+
 Suppose we have the regular expression `<[a-zA-Z]+>` and wish to find all instance which are not in this pattern and regard them as errors, then form the error bit stream. For example:
 
 ```
