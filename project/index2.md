@@ -10,12 +10,10 @@ Our project focus on `SelectionDAG LegalizeTypes Phase`, which in charge of conv
 
 #### The ways of legalization
 The type legalization phase transforms the program so that all of the calculations in the program operate on legal types, meaning that they can fit into a machine register. 
-Typical legalization phase has three ways to legalize vector types: Scalarization, Vector Widening and Vector Element Promotion.
 
-#### Notation
-In this article we use the notation <N × T> to describe vector types. The N variable
-denotes the number of vector elements and T denotes the element type. The element
-type iXX indicates an integer which is XX bits wide.
+Typical legalization phase has three ways to legalize vector types: `Scalarization`, `Vector Widening` and `Vector Element Promotion`.
+
+We use the notation <N × T> to describe vector types. The N variable denotes the number of vector elements and T denotes the element type. The element type iXX indicates an integer which is XX bits wide.
 
 #### Scalarization
 Splits the vector into multiple scalars. It is often used for the transformation from
