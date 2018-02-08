@@ -24,7 +24,7 @@ Add unused vector elements to widen the vector to fit in a physical register.
 
 With this legalization method, the type of the vector elements does not change, only the number of elements. 
 
-For example, a vector of < 4 × 8 > integers would be widened to a vector of < 6 × 8 > integers
+For example, a vector of `< 4 × 8 >` integers would be widened to a vector of `< 6 × 8>` integers
 
 ![Alt text](../image//VectorWidening.png )
 
