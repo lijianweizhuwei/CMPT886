@@ -5,6 +5,7 @@
 ### introduction
 ![Alt text](../image//SelectionDAG.png)
 LLVM uses a SelectionDAG-based instruction selector, which translates the LLVM IR code to target machine instructions.
+
 Our project focus on ‘SelectionDAG LegalizeTypes Phase’, which in charge of converting a DAG to only use the types that are natively supported by the target.
 
 #### The ways of legalization
