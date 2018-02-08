@@ -1,4 +1,4 @@
-# Project Ideal
+# SIMD Legalization and SWAR
 Suppose we have the regular expression `<[a-zA-Z]+>` and wish to find all instance which are not in this pattern and regard them as errors, then form the error bit stream. For example:
 
 ```
