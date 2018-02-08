@@ -13,7 +13,7 @@ The type legalization phase transforms the program so that all of the calculatio
 
 Typical legalization phase has three ways to legalize vector types: `Scalarization`, `Vector Widening` and `Vector Element Promotion`.
 
-We use the notation <N × T> to describe vector types. The N variable denotes the number of vector elements and T denotes the element type. The element type iXX indicates an integer which is XX bits wide.
+We use the notation `<N × T>` to describe `vector types`. The `N` variable denotes `the number of vector elements` and `T` denotes `the element type`. The element type iXX indicates an integer which is XX bits wide.
 
 #### Scalarization
 Splits the vector into multiple scalars. It is often used for the transformation from
