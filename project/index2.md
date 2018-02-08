@@ -25,6 +25,8 @@ With this legalization method, the type of the vector elements does not change, 
 
 For example, a vector of < 4 × 8 > integers would be widened to a vector of < 6 × 8 > integers
 
+![Alt text](../image//VectorWidening.png)
+
 #### Vector Element Promotion
 
 =======
