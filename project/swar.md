@@ -53,4 +53,4 @@ The basic concept of SWAR, SIMD Within A Register, is that operations on word-le
 
 e.g.: <4 x i7> x + <4 x i7> y
 ((x + y) & 0x7f7f7f7f)
-![Alt text](../image/1518093676456.png)
+![Alt text](../image/project_swar_1.jpeg)
