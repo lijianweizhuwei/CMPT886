@@ -1,3 +1,3 @@
-# CMPT886lalala
+# CMPT886
 
 course meterial of CMPT886
