@@ -44,7 +44,7 @@ The basic concept of SWAR, SIMD Within A Register, is that operations on word-le
 	* XOR (Add high bits)
 	* Mask high bits **result2**
 	* Add two results with XOR
-* [Example](https://coursys.sfu.ca/2016sp-cmpt-886-g2/pages/SWAR-Example1/view)
+* [Example](https://coursys.sfu.ca/2016sp-cmpt-886-g2/pages/SWAR-Example1/view) (直接看第二页的那个例子)
 
 ##### 2. Controlling Field Values
 ###### 2.1 Add
