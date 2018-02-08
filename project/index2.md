@@ -16,9 +16,14 @@ Typical legalization phase has three ways to legalize vector types: `Scalarizati
 We use the notation `<N × T>` to describe `vector types`. The `N` variable denotes `the number of vector elements` and `T` denotes `the element type`. The element type iXX indicates an integer which is XX bits wide.
 
 #### Scalarization
-Splits the vector into multiple scalars. It is often used for the transformation from
+Split the incoming vector into multiple scalars.
 
 #### Vector Widening
+Add unused vector elements to widen the vector to fit in a physical register.
+
+With this legalization method, the type of the vector elements does not change, only the number of elements. 
+
+For example, a vector of < 4 × 8 > integers would be widened to a vector of < 6 × 8 > integers
 
 #### Vector Element Promotion
 
