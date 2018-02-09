@@ -71,7 +71,7 @@ The above examples imply that in some situations, SWAR technology works better t
 So the combination of type legalization and SWAR is needed, as well as a cost evaluation model.
 
 ## An introductory example showing the target of our project
-### Hybrid Type Legalization Model
+### [Hybrid Type Legalization Model](https://dl.acm.org/citation.cfm?id=2509420.2509422)
 We learned such a model to choose the best type of legalization. A type legalization decision is in essence a
 graph coloring problem of a DAG. 
 
