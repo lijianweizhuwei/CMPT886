@@ -2,7 +2,7 @@
 
 ## Project Introduction
 <body>
-<div align=center><img width="300" height="300"
+<div align=center><img width="1000" height="300"
 src="https://github.com/lijianweizhuwei/CMPT886/blob/master/image/SelectionDAG.png"/></div>
 </body>
 
