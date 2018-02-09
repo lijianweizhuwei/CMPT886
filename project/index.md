@@ -90,4 +90,6 @@ Total cost = Node cost + Edge cost
 
 ```
 
+As we all know, this problem can be reduced to 2-color problem which can be solved in polynomial-time. However, in our project, we tried to use several legalization method which meas the problem is NP-hard. We'll try to use approximation algorithm to get near-optimial solution.
+
 
