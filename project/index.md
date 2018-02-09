@@ -10,7 +10,7 @@ Arbitrary SIMD instruction set contains arbitrary vectors, which will decrease t
 
 To execute the arbitrary SIMD instruction set efficiently, we need to define a model to handle it with certain technology in an optimal sequence.
 
-Our model will take the arbitrary SIMD instruction set as an input, and for each operation in this instrcution set, it will find the best method (the best method will be the best type legalization method or the best SWAR method), finally output the optimal method sequence and combination of the input arbitrary set.
+Our model will take the arbitrary SIMD instruction set as an input, and for each operation in this instrcution set, it will find the best method (the nearly best method will be the best type legalization method or the best SWAR method), finally output the optimal method sequence and combination of the input arbitrary set.
 
 Our work need to preserve the same workloads and improve the performance comparing to the traditional technologies (such as less registers needed or improve the execution time).
 
@@ -80,6 +80,7 @@ graph coloring problem of a DAG.
 Each node in the DAG which represents an operation can be legalized in one of several ways; these are the colors of the graph. 
 
 Each typed operation in the DAG has a different estimated cost for each legalization technique.
+Here is an example of `2-Hybird` type of legalization for a SIMD instruction set
 
 <div align=center><img width="300" height="300" 
 src="https://github.com/lijianweizhuwei/CMPT886/blob/master/image/Hybird.jpg"/></div>
@@ -91,8 +92,18 @@ Edge cots: RedToBlue[E2] + RedToBlue[E5]
 Total cost = Node cost + Edge cost
 
 ```
+As we all know,  `2-Hybird` type of legalization problem can be reduced to a 2-color problem which can be solved in polynomial-time.
+However, we try to use `N-hybrid`(N>2) type of legalization for a SIMD instruction set, which means the problem is NP-hard. We'll try to use approximation algorithm to get a near-optimal solution.
+Here is an example of `3-Hybird` type of legalization for a SIMD instruction set
+<div align=center><img width="300" height="300" 
+src="https://github.com/lijianweizhuwei/CMPT886/blob/master/image/3_hybird.png"/></div>
 
-As we all know, this problem can be reduced to a 2-color problem which can be solved in polynomial-time. However, in our project, we tried to use several legalization methods which means the problem is NP-hard. We'll try to use approximation algorithm to get a near-optimal solution.
+```
+Node cost: Red[Op1]+ Red[Op3]+ Red[Op5] +Blue[Op2]+ Blue[Op4]
+Edge cots: RedToBlue[E2] + RedToBlue[E5]
+Total cost = Node cost + Edge cost
+
+```
 
 ### The implementation of different operations by using SWAR
 #### 1. [Types of Operations](http://www.phys.aoyama.ac.jp/~w3-furu/aoyama+/Tech_notes/adaptor_doc/Users_Guide.pdf)
