@@ -2,6 +2,11 @@
 
 ## Project Introduction
 
+<div align=center><img width="300" height="300"/> 
+src="https://github.com/lijianweizhuwei/CMPT886/blob/master/image/SelectionDAG.png"
+</div>
+
+
 Our project aims to handle arbitrary SIMD instruction set, we plan to introduce a new method for handling arbitrary vectors with a combination of type legalization technology and the SWAR technology.
 
 As there're many partitioning available for the SIMD register, the operation of typical vectors such as i8, i16 are well supported. Efficient implementations rarely support the arbitrary vectors (oddballs), though they're allowed by the LLVM grammer.
@@ -133,6 +138,9 @@ We know that different types operations to implement SWAR have different difficu
 * Partitioned Instructions (hardware support)
 * ***Unpartitioned Operations With Correction Code***
 * ***Controlling Field Values***
+
+### Conclusion 
+In our project, we focus on the operation implented in SWAR and try to find a near-optimal solution in LegalizeTypes Phase.
 
 ## Reference
 1. [Hybrid Type Legalization for a Sparse SIMD Instruction Set](https://github.com/lijianweizhuwei/CMPT886/blob/master/file/hybird.pdf)
