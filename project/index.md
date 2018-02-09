@@ -29,18 +29,23 @@ Types are considered legal on an architecture if values of that type are *direct
 ### Possible Methods of Legalization
 
 * **Scalarization:**
+
 Which won't be considered in our project, because it will severely decrease the efficiency.
 
 * **Splitting:**
+
 If a vector is too big for architectural registers, *splitting* breaks up the vector into multiple shorter vectors that fit the architecture.
 
 * **Vector Widening:**
+
 通过widen达到right register size
 
 * **Vector Element Promotion:**
+
 通过element promotion达到right register size
 
 * **Combination of Vector Widening and Vector Element Promotion:**
+
 For a special case like a vector of type `<6 x i3>`, it could be widen and promoted to `<8 x i4>` (if the i32 sized vector is efficiently supported) or a typical `<16 x i8>` (why not `<32 x i4>`? because it's not typically supported on most CPUs).
 
 ## What is SWAR?
