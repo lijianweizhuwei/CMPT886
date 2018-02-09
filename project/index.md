@@ -15,7 +15,7 @@ To execute the arbitrary SIMD instruction set efficiently, we need to define a m
 
 Our model will take the arbitrary SIMD instruction set as an input, and for each operation in this instrcution set, it will find the best method (the nearly best method will be the best type legalization method or the best SWAR method), finally output the optimal method sequence and combination of the input arbitrary set.
 
-Our work need to preserve the same workloads and improve the performance comparing to the traditional technologies (such as less registers needed or improve the execution time).
+Our work need to preserve the same workloads and improve the performance comparing to the traditional technologies (such as less registers needed or improve the execution time or reduce the energy consuming).
 
 ## What is SIMD type legalization?
 
