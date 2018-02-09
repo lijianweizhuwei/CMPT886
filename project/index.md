@@ -118,9 +118,9 @@ We know that different types operations to implement SWAR have different difficu
 * Masking Operations
 
 #### 2. [Ways of Tranformation](https://www.tldp.org/HOWTO/Parallel-Processing-HOWTO-4.html)
-1. Partitioned Instructions (hardware support)
-2. ***Unpartitioned Operations With Correction Code***
-3. ***Controlling Field Values***
+* Partitioned Instructions (hardware support)
+* ***Unpartitioned Operations With Correction Code***
+* ***Controlling Field Values***
 ### 
 
 
