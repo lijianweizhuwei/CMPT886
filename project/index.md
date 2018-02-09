@@ -92,6 +92,18 @@ Total cost = Node cost + Edge cost
 
 As we all know, this problem can be reduced to a 2-color problem which can be solved in polynomial-time. However, in our project, we tried to use several legalization methods which means the problem is NP-hard. We'll try to use approximation algorithm to get a near-optimal solution.
 
+### The implementation of different operations by using SWAR
+#### 1. [Types of Operations](http://www.phys.aoyama.ac.jp/~w3-furu/aoyama+/Tech_notes/adaptor_doc/Users_Guide.pdf)
+* Polymorphic Operations (data type independent) e.g.: AND, OR, ...
+* Partitioned Operations (not independent) e.g.: + - x /
+* Communication & Type Conversion Operations
+* Recurrence Operations (Reductions, Scans, etc.)
+* Masking Operations
+
+#### 2. [Ways of Tranformation](https://www.tldp.org/HOWTO/Parallel-Processing-HOWTO-4.html)
+1. Partitioned Instructions (hardware support)
+2. ***Unpartitioned Operations With Correction Code***
+3. ***Controlling Field Values***
 ### 
 
 
