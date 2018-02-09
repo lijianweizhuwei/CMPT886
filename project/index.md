@@ -90,7 +90,11 @@ Here is an example of `2-Hybird` type of legalization for a SIMD instruction set
 src="https://github.com/lijianweizhuwei/CMPT886/blob/master/image/Hybird.jpg"/>
 </div>
 
-The cost of the DAG in this example is evaluated by accumulating the cost of the nodes and edges.If an edge in the colored graph connects two nodes of different colors (different legalization techniques) then the compiler needs to convert one type representation to another, which requires an additional cost. An edge which connects two nodes of the same color costs nothing.
+The cost of the DAG in this example is evaluated by accumulating the cost of the nodes and edges.
+
+If an edge in the colored graph connects two nodes of different colors (different legalization techniques) then the compiler needs to convert one type representation to another, which requires an additional cost. 
+
+An edge which connects two nodes of the same color costs nothing.
 
 ```
 Node cost: Red[Op1]+ Red[Op3]+ Red[Op5] +Blue[Op2]+ Blue[Op4]
