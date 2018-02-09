@@ -139,6 +139,7 @@ We know that different types operations to implement SWAR have different difficu
 ### Conclusion 
 In our project, we focus on the operation implented in SWAR and try to find a near-optimal solution in LegalizeTypes Phase.
 
+
 ## Reference
 1. [Hybrid Type Legalization for a Sparse SIMD Instruction Set](https://github.com/lijianweizhuwei/CMPT886/blob/master/file/hybird.pdf)
 2. [Sierra: A SIMD Extension for C++](https://github.com/lijianweizhuwei/CMPT886/blob/master/file/Sierra.pdf)
@@ -150,6 +151,7 @@ In our project, we focus on the operation implented in SWAR and try to find a ne
 8. [LLVM SIMDtoSWAR Pass](https://github.com/lijianweizhuwei/CMPT886/blob/master/file/LLVM.pdf)
 9. [SWAR Support for LLVM](https://github.com/lijianweizhuwei/CMPT886/blob/master/file/SWAR_S.pdf)
 10. [General-Purpose SIMD Within A Register: Parallel Processing on Consumer Microprocessors](https://github.com/lijianweizhuwei/CMPT886/blob/master/file/swar.pdf)
+11. [LLVM Code Generator](http://llvm.org/docs/CodeGenerator.html#selectiondag-legalizetypes-phase)
 
 
 
