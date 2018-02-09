@@ -55,6 +55,8 @@ src="https://github.com/lijianweizhuwei/CMPT886/blob/master/image/VectorPromotin
 
 ![test image size]("https://github.com/lijianweizhuwei/CMPT886/blob/master/image/VectorPromoting.png"){:height="300px" width="400px"}
 
+<img src="https://github.com/lijianweizhuwei/CMPT886/blob/master/image/VectorPromoting.png" width = "80%" />
+
 
 * **Combination of Vector Widening and Vector Element Promotion:**
 For a special case like a vector of type `<6 x i3>`, it could be widen and promoted to `<8 x i4>` (if the i32 sized vector is efficiently supported) or a typical `<16 x i8>` (why not `<32 x i4>`? because it's not typically supported on most CPUs).
