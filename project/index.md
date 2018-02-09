@@ -51,6 +51,9 @@ For example, a vector of `< 4 × i8>` integers can be promoted to a vector of `<
 src="https://github.com/lijianweizhuwei/CMPT886/blob/master/image/VectorPromoting.png"/>
 </div>
 
+![Alt text](../image/VectorPromoting.jpeg =300x300)
+
+
 * **Combination of Vector Widening and Vector Element Promotion:**
 For a special case like a vector of type `<6 x i3>`, it could be widen and promoted to `<8 x i4>` (if the i32 sized vector is efficiently supported) or a typical `<16 x i8>` (why not `<32 x i4>`? because it's not typically supported on most CPUs).
 
