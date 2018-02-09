@@ -1,10 +1,7 @@
 # SIMD Legalization and SWAR
 
 ## Project Introduction
-<body>
-<div align=center><img width="1000" height="300"
-src="https://github.com/lijianweizhuwei/CMPT886/blob/master/image/SelectionDAG.png"/></div>
-</body>
+![Alt text](../image//SelectionDAG.png)
 
 LLVM uses a SelectionDAG-based instruction selector, which translates the LLVM IR code to target machine instructions. We focus on SelectionDAG LegalizeTypes Phase
 Our project aims to handle arbitrary SIMD instruction set, we plan to introduce a new method for handling arbitrary vectors with a combination of type legalization technology and the SWAR technology.
