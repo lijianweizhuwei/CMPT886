@@ -82,7 +82,7 @@ So the combination of type legalization and SWAR is needed, as well as a cost ev
 ## An introductory example showing the target of our project
 ### [Hybrid Type Legalization Model](https://github.com/lijianweizhuwei/CMPT886/blob/master/file/hybird.pdf)
 We learned such a model to choose the best type of legalization. A type legalization decision is in essence a
-graph coloring problem of a DAG. 
+graph coloring problem of a DAG `Directed Acyclic Graph`. 
 
 Each node in the DAG which represents an operation can be legalized in one of several ways; these are the colors of the graph. 
 
@@ -94,7 +94,7 @@ Here is an example of `2-Hybird` type of legalization for a SIMD instruction set
 src="https://github.com/lijianweizhuwei/CMPT886/blob/master/image/Hybird.jpg"/>
 </div>
 
-The cost of the DAG in this example is evaluated by accumulating the cost of the nodes and edges.
+The cost of the DAG  in this example is evaluated by accumulating the cost of the nodes and edges.
 
 If an edge in the colored graph connects two nodes of different colors (different legalization techniques) then the compiler needs to convert one type representation to another, which requires an additional cost. 
 
