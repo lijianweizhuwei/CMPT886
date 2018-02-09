@@ -39,7 +39,7 @@ Add unused vector elements to widen the vector to fit in a physical register. Wi
  
    For example, a vector of < 4 × i8 > integers can be widened to a vector of < 6 × i8 > integers.
 
-![Alt text](../image//VectorWidening.png )
+                     ![Alt text](../image//VectorWidening.png )
 
 * **Vector Element Promotion:**
 In this method, the number of vector elements does not change, only the size of each element.
