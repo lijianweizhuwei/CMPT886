@@ -81,8 +81,8 @@ Each node in the DAG which represents an operation can be legalized in one of se
 
 Each typed operation in the DAG has a different estimated cost for each legalization technique.
 
-![Alt text](../image//Hybird.jpg )
-
+<div align=center><img width="300" height="300" 
+src="https://github.com/lijianweizhuwei/CMPT886/blob/master/image/Hybird.png"/></div>
 The cost of the DAG in this example is evaluated by accumulating the cost of the nodes and edges.
 
 ```
