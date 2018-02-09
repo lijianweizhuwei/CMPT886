@@ -1,10 +1,10 @@
 # SIMD Legalization and SWAR
 
 ## Project Introduction
-
-<div align=center><img width="300" height="300"/> 
-src="https://github.com/lijianweizhuwei/CMPT886/blob/master/image/SelectionDAG.png"
-</div>
+<body>
+<div align=center><img width="300" height="300"
+src="https://github.com/lijianweizhuwei/CMPT886/blob/master/image/SelectionDAG.png"/></div>
+</body>
 
 
 Our project aims to handle arbitrary SIMD instruction set, we plan to introduce a new method for handling arbitrary vectors with a combination of type legalization technology and the SWAR technology.
