@@ -80,6 +80,7 @@ graph coloring problem of a DAG.
 Each node in the DAG which represents an operation can be legalized in one of several ways; these are the colors of the graph. 
 
 Each typed operation in the DAG has a different estimated cost for each legalization technique.
+#### 2-Hybird
 Here is an example of `2-Hybird` type of legalization for a SIMD instruction set
 
 <div align=center><img width="300" height="300" 
@@ -88,24 +89,27 @@ The cost of the DAG in this example is evaluated by accumulating the cost of the
 
 ```
 Node cost: Red[Op1]+ Red[Op3]+ Red[Op5] +Blue[Op2]+ Blue[Op4]
-Edge cots: RedToBlue[E2] + RedToBlue[E5]
+Edge cots: BlueToRed[E2] + BlueToRed[E5]
 Total cost = Node cost + Edge cost
 
 ```
 As we all know,  `2-Hybird` type of legalization problem can be reduced to a 2-color problem which can be solved in polynomial-time.
+
+#### N-Hybird
 However, we try to use `N-hybrid`(N>2) type of legalization for a SIMD instruction set, which means the problem is NP-hard. We'll try to use approximation algorithm to get a near-optimal solution.
 Here is an example of `3-Hybird` type of legalization for a SIMD instruction set
 <div align=center><img width="300" height="300" 
 src="https://github.com/lijianweizhuwei/CMPT886/blob/master/image/3_hybird.png"/></div>
 
 ```
-Node cost: Red[Op1]+ Red[Op3]+ Red[Op5] +Blue[Op2]+ Blue[Op4]
-Edge cots: RedToBlue[E2] + RedToBlue[E5]
+Node cost: Red[Op1]+ Red[Op3]+ Red[Op5] +Blue[Op2]+ Green[Op4]
+Edge cots: BluetoRed[E2] + GreenToRed[E5]
 Total cost = Node cost + Edge cost
 
 ```
 
 ### The implementation of different operations by using SWAR
+We know that different types operations to implement SWAR have different difficulties. This is what we need to try in our project.
 #### 1. [Types of Operations](http://www.phys.aoyama.ac.jp/~w3-furu/aoyama+/Tech_notes/adaptor_doc/Users_Guide.pdf)
 * Polymorphic Operations (data type independent) e.g.: AND, OR, ...
 * Partitioned Operations (not independent) e.g.: + - x /
