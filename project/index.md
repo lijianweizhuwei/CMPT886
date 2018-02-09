@@ -79,3 +79,6 @@ Each node in the DAG which represents an operation can be legalized in one of se
 
 Each typed operation in the DAG has a different estimated cost for each legalization technique.
 
+![Alt text](../image//Hybird.jpg )
+
+
