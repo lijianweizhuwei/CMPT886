@@ -45,3 +45,5 @@ For a vector of type `<25 x i5>` and register size 128-bit, if we use a type leg
 For a vector of type `<15 x i5>` and register size 128-bit, if we use a type legalization technology, we can promote and wide the vector to `<16 x i8>`, this approach needs only one register, which doesn't increase the number of register comparing to SWAR. As the SIMD vector type `<16 x i8>` is well supported by the LLVM/Parabix framework, we prefer to use the Type Legalization method.
 
 The above examples imply that in some situations, SWAR technology works better than a Type Legalization one, such as when the register resource is a limitation (example 1). In some other situations (example 2), Type Legalization is a better choice.
+
+So the combination of type legalization and SWAR is needed, as well as a cost evaluation model.
