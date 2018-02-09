@@ -35,10 +35,15 @@ Which won't be considered in our project, because it will severely decrease the 
 If a vector is too big for architectural registers, *splitting* breaks up the vector into multiple shorter vectors that fit the architecture.
 
 * **Vector Widening:**
-通过widen达到right register size
+Add unused vector elements to widen the vector to fit in a physical register. With this legalization method, the type of the vector elements does not change, only the number of elements.
+
+For example, a vector of < 4 × i8 > integers would be widened to a vector of < 6 × i8 > integers.
+
+![Alt text](../image//VectorWidening.png )
 
 * **Vector Element Promotion:**
-通过element promotion达到right register size
+In this method, the number of vector elements does not change, only the size of each element.
+For example, a vector of `< 4 × i8>` integers would be promoted to a vector of `< 4 × i32 >` integers.
 
 * **Combination of Vector Widening and Vector Element Promotion:**
 For a special case like a vector of type `<6 x i3>`, it could be widen and promoted to `<8 x i4>` (if the i32 sized vector is efficiently supported) or a typical `<16 x i8>` (why not `<32 x i4>`? because it's not typically supported on most CPUs).
