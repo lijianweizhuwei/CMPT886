@@ -44,6 +44,7 @@ If a vector is too big for architectural registers, *splitting* breaks up the ve
 For a special case like a vector of type `<6 x i3>`, it could be widen and promoted to `<8 x i4>` (if the i32 sized vector is efficiently supported) or a typical `<16 x i8>` (why not `<32 x i4>`? because it's not typically supported on most CPUs).
 
 ## What is SWAR?
+SWAR, which means SIMD within a register, is a technique for performing parallel operations on data contained in a processor register.
 
 ## Why our project want the combination of Legalization and SWAR?
 ### Example 1:
