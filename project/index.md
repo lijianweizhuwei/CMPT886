@@ -39,7 +39,7 @@ Add unused vector elements to widen the vector to fit in a physical register. Wi
  
    For example, a vector of < 4 × i8 > integers can be widened to a vector of < 6 × i8 > integers.
 
-![Alt text](../image//VectorWidening.png )
+[//]: # (![Alt text](../image//VectorWidening.png ))
 <div align=center><img width="300" height="300" src="https://github.com/lijianweizhuwei/CMPT886/blob/master/image/VectorWidening.png"/></div>
 
 
