@@ -23,11 +23,11 @@ Types are considered legal on an architecture if values of that type are *direct
 * the total vector size in bits is equal to the size of SIMD registers on the architecture
 * the scalar size of vector elements is supported by specific SIMD operations on that architecture.
 
-**Illegal example**
+### Illegal example
 * vector type `<3 x i8>` is considered illegal on practical architectures, because they have no 24-bit registers.
 * vector type `<3 x i6>` is considered illegal on practical architectures, because they have neither 18-bit registers, nor SIMD operations that support 6-bit field widths.
 
-**Possible Methods of Legalization**
+### Possible Methods of Legalization
 * **Scalarization:** Which won't be considered in our project, because it will severely decrease the efficience.
 * **splitting:** If a vector is too big for architectural registers, *splitting* breaks up the vector into multiple shorter vectors that fit the architecture.
 * **Vector Widening:** 通过widen达到right register size
