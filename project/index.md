@@ -54,6 +54,8 @@ SWAR, which means SIMD within a register, is a technique for performing parallel
 
 For example, `<32 x i4>` vectors are not typically supported on most CPUs, but the operations on these vectors can be simulated on `<16 x i8>` vectors.
 
+As the example we used in `Combination of Vector Widening and Vector Element Promotion`, we can easily use SWAR to maintain a total of 18 bits for the size of the elements.
+
 ## Why our project want the combination of Legalization and SWAR?
 ### Example 1:
 
