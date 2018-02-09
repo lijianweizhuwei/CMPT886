@@ -81,18 +81,13 @@ Each typed operation in the DAG has a different estimated cost for each legaliza
 
 ![Alt text](../image//Hybird.jpg )
 
-The cost of the DAG in this example is evaluated by accumulating the cost of the nodes
+The cost of the DAG in this example is evaluated by accumulating the cost of the nodes and edges.
 
 ```
-Red[Op1]+ Red[Op3]+ Red[Op5] +Blue[Op2]+ Blue[Op4]
+Node cost: Red[Op1]+ Red[Op3]+ Red[Op5] +Blue[Op2]+ Blue[Op4]
+Edge cots: RedToBlue[E2] + RedToBlue[E5]
+Total cost = Node cost + Edge cost
 
 ```
-The cost of the edges 
 
-```
-RedToBlue[E2] + RedToBlue[E5].
-
-```
-The hybrid type legalization method relies on a cost table. The table describes the
-expected cost for each of the legalization kinds
 
