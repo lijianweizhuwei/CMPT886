@@ -23,8 +23,8 @@ Types are considered legal on an architecture if values of that type are *direct
 * the scalar size of vector elements is supported by specific SIMD operations on that architecture.
 
 ### Illegal example
-* vector type `<3 x i8>` is considered illegal on practical architectures, because they have no 24-bit registers.
-* vector type `<3 x i6>` is considered illegal on practical architectures, because they have neither 18-bit registers, nor SIMD operations that support 6-bit field widths.
+* Vector type `<3 x i8>` is considered illegal on practical architectures, because they have no 24-bit registers.
+* Vector type `<3 x i6>` is considered illegal on practical architectures, because they have neither 18-bit registers, nor SIMD operations that support 6-bit field widths.
 
 ### Possible Methods of Legalization
 * **Scalarization:**
