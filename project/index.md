@@ -53,7 +53,7 @@ src="https://github.com/lijianweizhuwei/CMPT886/blob/master/image/VectorPromotin
 
 ![Alt text](../image/VectorPromoting.jpeg =300x300)
 
-![test image size]("https://github.com/lijianweizhuwei/CMPT886/blob/master/image/VectorPromoting.png"){:height="300px" width="400px"
+![test image size]("https://github.com/lijianweizhuwei/CMPT886/blob/master/image/VectorPromoting.png"){:height="300px" width="400px"}
 
 
 * **Combination of Vector Widening and Vector Element Promotion:**
