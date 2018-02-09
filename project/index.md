@@ -139,7 +139,7 @@ We know that different types operations to implement SWAR have different difficu
 * ***Controlling Field Values***
 
 ### Conclusion 
-In our project, we focus on the operation implented in SWAR and try to find a near-optimal solution in LegalizeTypes Phase.
+In our project, we focus on the operation implemented in SWAR and try to find a near-optimal solution in LegalizeTypes Phase.
 
 
 ## Reference
