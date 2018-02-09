@@ -69,3 +69,5 @@ For a vector of type `<15 x i5>` and register size 128-bit, if we use a type leg
 The above examples imply that in some situations, SWAR technology works better than a Type Legalization one, such as when the register resource is a limitation (example 1). In some other situations (example 2), Type Legalization is a better choice.
 
 So the combination of type legalization and SWAR is needed, as well as a cost evaluation model.
+
+## An introductory example showing the target of our project
