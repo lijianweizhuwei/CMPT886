@@ -46,8 +46,11 @@ Add unused vector elements to widen the vector to fit in a physical register. Wi
 In this method, the number of vector elements does not change, only the size of each element.
 
 For example, a vector of `< 4 × i8>` integers can be promoted to a vector of `< 4 × i32 >` integers.
+
 <div align=center><img width="300" height="300" 
-src="https://github.com/lijianweizhuwei/CMPT886/blob/master/image/VectorPromoting.png"/></div>
+src="https://github.com/lijianweizhuwei/CMPT886/blob/master/image/VectorPromoting.png"/>
+</div>
+
 * **Combination of Vector Widening and Vector Element Promotion:**
 For a special case like a vector of type `<6 x i3>`, it could be widen and promoted to `<8 x i4>` (if the i32 sized vector is efficiently supported) or a typical `<16 x i8>` (why not `<32 x i4>`? because it's not typically supported on most CPUs).
 
@@ -84,7 +87,9 @@ Each typed operation in the DAG has a different estimated cost for each legaliza
 Here is an example of `2-Hybird` type of legalization for a SIMD instruction set
 
 <div align=center><img width="300" height="300" 
-src="https://github.com/lijianweizhuwei/CMPT886/blob/master/image/Hybird.jpg"/></div>
+src="https://github.com/lijianweizhuwei/CMPT886/blob/master/image/Hybird.jpg"/>
+</div>
+
 The cost of the DAG in this example is evaluated by accumulating the cost of the nodes and edges.
 
 ```
@@ -98,8 +103,10 @@ As we all know,  `2-Hybird` type of legalization problem can be reduced to a 2-c
 #### N-Hybird
 However, we try to use `N-hybrid`(N>2) type of legalization for a SIMD instruction set, which means the problem is NP-hard. We'll try to use approximation algorithm to get a near-optimal solution.
 Here is an example of `3-Hybird` type of legalization for a SIMD instruction set
+
 <div align=center><img width="300" height="300" 
-src="https://github.com/lijianweizhuwei/CMPT886/blob/master/image/3_hybird.png"/></div>
+src="https://github.com/lijianweizhuwei/CMPT886/blob/master/image/3_hybird.png"/>
+</div>
 
 ```
 Node cost: Red[Op1]+ Red[Op3]+ Red[Op5] +Blue[Op2]+ Green[Op4]
@@ -133,6 +140,6 @@ We know that different types operations to implement SWAR have different difficu
 8. [LLVM SIMDtoSWAR Pass](https://github.com/lijianweizhuwei/CMPT886/blob/master/file/LLVM.pdf)
 9. [SWAR Support for LLVM](https://github.com/lijianweizhuwei/CMPT886/blob/master/file/SWAR_S.pdf)
 10. [General-Purpose SIMD Within A Register: Parallel Processing on Consumer Microprocessors](https://github.com/lijianweizhuwei/CMPT886/blob/master/file/swar.pdf)
-### 
+
 
 
