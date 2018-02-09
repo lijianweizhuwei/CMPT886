@@ -84,9 +84,9 @@ So the combination of type legalization and SWAR is needed, as well as a cost ev
 We learned such a model to choose the best type of legalization. A type legalization decision is in essence a
 graph coloring problem of a DAG `Directed Acyclic Graph`. 
 
-Each node in the DAG which represents an operation can be legalized in one of several ways; these are the colors of the graph. 
+Each node in the DAG which represents an operation can be legalized in one of several ways; these are the `colors` of the graph. 
 
-Each typed operation in the DAG has a different estimated cost for each legalization technique.
+Each typed operation in the DAG has a different estimated cost for each legalization technique; these are the `edges` of the graph. 
 #### 2-Hybird
 Here is an example of `2-Hybird` type of legalization for a SIMD instruction set
 
