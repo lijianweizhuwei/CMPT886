@@ -123,11 +123,11 @@ Total cost = Node cost + Edge cost
 ```
 
 ### The implementation of different operations by using SWAR
-We know that different types operations to implement SWAR have different difficulties. This is what we need to try in our project.
+We know that different types operations to implement SWAR have different difficulties. This is what we need to try in our project. This part is very complex, I will just introduce the outline.
 #### 1. [Types of Operations](http://www.phys.aoyama.ac.jp/~w3-furu/aoyama+/Tech_notes/adaptor_doc/Users_Guide.pdf)
 * Polymorphic Operations (data type independent) e.g.: AND, OR, ...
 * Partitioned Operations (not independent) e.g.: + - x /
-* Communication & Type Conversion Operations
+* Communication & Type Conversion Operations eg.: int 	_mm_cvtss_si32 (__m128 v1)
 * Recurrence Operations (Reductions, Scans, etc.)
 * Masking Operations
 
