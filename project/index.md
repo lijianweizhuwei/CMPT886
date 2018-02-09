@@ -2,6 +2,19 @@
 
 ## Project Introduction
 
+Our project aims to handle arbitrary SIMD instruction size, we plan to introduce a new method for handling arbitrary vectors with a combination of type legalization technology and the SWAR technology.
+However, while LLVM's grammar allows arbitrary vectors, implementations rarely
+support them.
+Vectors are implemented by LLVM backends as direct uses of the processor's SIMD registers. The
+SIMD registers are of fixed length, and have variable amounts of partitioning available. This means that
+common vectors (containing eg i4's, i8's, i16's) are well supported. However, if you have a vector
+containing, for example <12x3i>, for 36 bytes of storage, that is unlikely to fit in a SIMD register, and the
+partitioning offered by the register will be illsuited
+to your 3byte
+values.
+Our goal is to automatically convert your <12x3i> vector and operations using it into similarly efficient
+code using registers to store your values, and modified operations that preserve the speed of SIMD.
+
 ## What is SIMD type legalization?
 
 In the LLVM infrastructure, type legalization is the process of transforming IR code to replace all illegal types and operations with legal ones.
