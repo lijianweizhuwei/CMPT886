@@ -110,7 +110,7 @@ A type legalization decision is in essence a graph coloring problem of a DAG.
 As we all know,  `2-Hybird` type of legalization problem can be reduced to a 2-color problem which can be solved in polynomial-time.
 
 #### N-Hybird
-However, we try to use `N-hybrid`(N>2) type of legalization for a SIMD instruction set, which means the problem is NP-hard. We'll try to use approximation algorithm to get a near-optimal solution.
+However, we try to use `N-hybrid`(N>2) type of legalization for a SIMD instruction set, which means the problem is NP-hard. We'll try to use `approximation algorithm` to get a `near-optimal` solution.
 Here is an example of `3-Hybird` type of legalization for a SIMD instruction set
 
 <div align=center><img width="300" height="300" 
