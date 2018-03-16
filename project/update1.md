@@ -7,9 +7,17 @@ The picture above is a brief flowchart of our project. In our project, we must f
 
 Therefore, we have four main areas need to be implemented in our projects. 
 
-Our project aims to handle arbitrary SIMD instruction set, we plan to introduce a new method for handling arbitrary vectors with a combination of type legalization technology and the SWAR technology.
+## Instruction Analysis
+First, we need to identify the operation and vectors. We need to determine whether the operation can be implement or not.
 
-As there're many partitioning available for the SIMD register, the operation of typical vectors such as i8, i16 are well supported. Efficient implementations rarely support the arbitrary vectors (oddballs), though they're allowed by the LLVM grammer.
+
+## Cost table calculation
+This is the most important part of the project.
+
+## Type Legalization
+When we read LLVM source code, we find that we can optimize this part to improve efficiency.
+
+## SWAR
 
 Arbitrary SIMD instruction set contains arbitrary vectors, which will decrease the efficiency of vectorization. Some technologies are used to handle the arbitrary vectors, such as *type legalization technology* and *SWAR technology*, but somehow they are conflicting and have different performance in variable situations. 
 
