@@ -76,6 +76,13 @@ We have read LegalizerInfo.cpp and related files from llvm source code. We are t
 ### Brief description
 
 ### Current Progress
+1) Recognize the arithmetic instruction
+2) Extract operands (i.e. 2 vectors) from the instruction
+3) Change vectors into a single vector
+4) Generate a mask for operating instruction
+5) Operate AND, XOR, ADD instructions
+6) Reverse the single vector to the original vector type
+
 
 ### Next to do
 
