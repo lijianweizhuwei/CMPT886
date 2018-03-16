@@ -27,7 +27,7 @@ We have done part of Legalization.cpp and related files based on llvm source cod
 
 
 ``` 
-LegalizerInfo::findAction(const SizeAndActionsVec &Vec, const uint32_t Size) {
+LegalizerInfo::findAction(const SizeAndActionsVec &Vec, const uint32_t size) {
   
   ...
   
@@ -35,19 +35,19 @@ LegalizerInfo::findAction(const SizeAndActionsVec &Vec, const uint32_t Size) {
   //action stands for the legalization operation need to be done to this element type
   
   int VecIdx = VecIt - Vec.begin();
-  LegalizeAction Action = Vec[VecIdx].action;
+  LegalizeAction action = Vec[VecIdx].action;
   
-  switch (Action) {
+  switch (action) {
   
-  case Legal:
+  case alreadyLegal:
   // Legal means this type can be supported directly or with some libraries.
-  return {Size, Action};
+  return {size, action};
   
   case Promotion:
   case Widen: {
     for (std::size_t i = VecIdx + 1; i < Vec.size(); ++i)
       if (!needsLegalizingToDifferentSize(Vec[i].action) && Vec[i].action != Unsupported)
-        return {Vec[i].size, widen};
+        return {Vec[i].size, action};
     llvm_unreachable("");
   }
   
@@ -74,39 +74,12 @@ LegalizerInfo::findAction(const SizeAndActionsVec &Vec, const uint32_t Size) {
 ``` 
 ### Next to do
 The current implementation has the following problems:
-1. Can't support oddball types like <5 x i3>, <25 x i5> ... The reason is that the Promotion action and the Widen action  have the same implementation to get the legal element number, which means the Promotion action is only part done. Actually 
+1. Can't support oddball types like <5 x i3>, <25 x i5> ... The reason is that the Promotion action and the Widen action  have the same implementation to get the legal elements number, which means the Promotion action is only part done. If we want to legalize a vecter type like <5 x i3>, we need a combination of Widen and Promotion.
+2. The process is time-consuming. For example, if we need to transfer a illegal element type *n* to a nearby legal element type *m*, we need to interate all |n-m|-1 types between *n* and *m*. We once plan to use a *legal mask* to improve the efficiency, but if the legalization is working on a single vector of certain type, the mask loss it's advantage.
+3. Can't support operations which might have more than one type, such as *icmp*.
 
 ## SWAR
 ### Brief description
-
-2 ways:
-1) Optimize the add instruction through pass (take)
-2) Generate a new function 
-
-Add
-Process:
-1) Recognize the "add" instruction
-```
-if (!inst.isBinaryOp() || inst.getOpcode() != Instruction::Add) {
-    continue;
-}
-```
-2) Extract operands (i.e. 2 vectors) from the instruction
-3) Change vectors into a single vector
-4) Generate a mask for operating instruction
-```
-uint64_t generateMask(Value * elemSize, Value * numElems);
-uint64_t mask = generateMask(elemSize, numElems);
-```
-5) Operate AND, XOR, ADD instructions
-```
-llvm::BinaryOperator::CreateAnd(vector1, llvm::ConstantInt::get(Int32Ty, mask), "", inst);
-```
-6) Reverse the single vector to the original vector type
-
-Note:
-If the vector size is over 128, then give up the SWAR optimization.
-For the overflow, there is a way that is extend one bit used for the overflow. We didn't use that, we choose to give up the overlfow and  return the same data type as it was input.
 
 ### Current Progress
 
