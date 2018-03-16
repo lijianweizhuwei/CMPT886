@@ -7,6 +7,19 @@ The picture above is the flowchart of our updated model. In our project, firstly
 
 We devide our project into three main part. 
 
+## Instruction Analysis and Cost table calculation
+### Brief description
+
+First, we need to identify the operation and vectors. It can help us decide if the vector need to be legalized and if SWAR instructions can be used. 
+
+### Current Progress
+We could identify the operation and vectors. The following code is a simple example to recognize add instruction.
+``` 
+if (!inst.isBinaryOp() || inst.getOpcode() != Instruction::Add) {
+  continue;
+}
+```
+
 ## Type Legalization
 
 ### Brief description
@@ -105,6 +118,7 @@ For the overflow, there is a way extending one bit used for the overflow. We cho
 ### Current Progress
 
 ### Next to do
+
 
 ## Reference
 1. [Sierra: A SIMD Extension for C++](https://github.com/lijianweizhuwei/CMPT886/blob/master/file/Sierra.pdf)
