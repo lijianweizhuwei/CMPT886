@@ -119,6 +119,8 @@ For the overflow, there is a way extending one bit used for the overflow. We cho
 
 ### Next to do
 
+All polymorphic operations can be done by the default process.
+While all other arithmetic operations are based on add operation. Once the add operation has been done, other operations like subtract, multi, dived could be done one some reversion between operations.
 
 ## Reference
 1. [Sierra: A SIMD Extension for C++](https://github.com/lijianweizhuwei/CMPT886/blob/master/file/Sierra.pdf)
