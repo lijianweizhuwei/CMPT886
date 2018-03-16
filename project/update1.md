@@ -46,7 +46,6 @@ for type legalization.
   }
   case WidenScalar:
   case MoreElements: {
-    // See above, the following needs to be a loop, at least for now.
     for (std::size_t i = VecIdx + 1; i < Vec.size(); ++i)
       if (!needsLegalizingToDifferentSize(Vec[i].second) &&
           Vec[i].second != Unsupported)
