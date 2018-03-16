@@ -1,9 +1,11 @@
 # SIMD Legalization and SWAR
 
 ## Project Flowcharts
-![Alt text](../image//SelectionDAG.png)
+![Alt text](../image//flowchart.png)
 
-LLVM uses a SelectionDAG-based instruction selector, which translates the LLVM IR code to target machine instructions. We focus on SelectionDAG LegalizeTypes Phase.
+The picture above is a brief flowchart of our project. In our project, we must first analyze the input instructions. Then we need to determine the most appropriate process according to our cost table. In the end, We will output the comparsion between our optimize process cost and original process cost.
+
+Therefore, we have four main areas need to be implemented in our projects. 
 
 Our project aims to handle arbitrary SIMD instruction set, we plan to introduce a new method for handling arbitrary vectors with a combination of type legalization technology and the SWAR technology.
 
