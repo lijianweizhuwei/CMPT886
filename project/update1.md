@@ -3,31 +3,22 @@
 ## Project Flowcharts
 ![Alt text](../image//flowchart.png)
 
-The picture above is a brief flowchart of our project which is far away from our original idea. In our project, we must first analyze the input instructions. Then we need to determine the most appropriate process according to our cost table. In the end, We will output the comparsion between our optimize process cost and original process cost.
+The picture above is the flowchart of our updated model. In our project, firstly need analyss the input instruction set, then determine a appropriate processing method according to the pre-processed cost table. Finally, output the comparsion result.
 
-Therefore, we have four main areas need to be implemented in our projects. 
+We devide our project into three main part. 
 
-## Instruction Analysis and Cost table calculation
-### Brief description
-
-First, we need to identify the operation and vectors. It can help us decide if the vector need to be legalized and if SWAR instructions can be used. 
-
-### Current Progress
-
-### Next to do
-
-
-## Type Legalization Optimize
+## Type Legalization
 
 ### Brief description
-When we read LLVM source code, we find that we can optimize this part to improve efficiency.
+Based on the LLVM source code, we find that the type legalization part can't support all legalizing type and has a few problems need to be solve ,even for the lastest version (LLVM 6.0.0).
 
 ### Current Progress
-We have done part of Legalization.cpp and related files based on llvm source code. We are trying to override the logic for type legalization to improve efficiency and support more vector types.
+We have done part of Legalization.cpp and the related files based on LLVM source code. We are trying to override the logic of legalization to improve the efficiency and support more arbitrary vector types, however, we also encounter some problems. Following is a key part of determine the correct element number after legalization and choose the correct legalization action.
+The basic action has already been saved in a *legalization table*, such as i3 need to be promoted and i64 need to be splitted.
 
 
 ``` 
-LegalizerInfo::findAction(const SizeAndActionsVec &Vec, const uint32_t size) {
+LegalizerInfo::legalizationAction(const SizeAndActionsVec &Vec, const uint32_t size) {
   
   ...
   
