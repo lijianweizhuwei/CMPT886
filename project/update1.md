@@ -79,6 +79,35 @@ The current implementation has the following problems:
 ## SWAR
 ### Brief description
 
+2 ways:
+1) Optimize the add instruction through pass (take)
+2) Generate a new function 
+
+Add
+Process:
+1) Recognize the "add" instruction
+```
+if (!inst.isBinaryOp() || inst.getOpcode() != Instruction::Add) {
+    continue;
+}
+```
+2) Extract operands (i.e. 2 vectors) from the instruction
+3) Change vectors into a single vector
+4) Generate a mask for operating instruction
+```
+uint64_t generateMask(Value * elemSize, Value * numElems);
+uint64_t mask = generateMask(elemSize, numElems);
+```
+5) Operate AND, XOR, ADD instructions
+```
+llvm::BinaryOperator::CreateAnd(vector1, llvm::ConstantInt::get(Int32Ty, mask), "", inst);
+```
+6) Reverse the single vector to the original vector type
+
+Note:
+If the vector size is over 128, then give up the SWAR optimization.
+For the overflow, there is a way that is extend one bit used for the overflow. We didn't use that, we choose to give up the overlfow and  return the same data type as it was input.
+
 ### Current Progress
 
 ### Next to do
