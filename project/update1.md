@@ -18,11 +18,51 @@ First, we need to identify the operation and vectors. It can help us decide if t
 
 
 ## Type Legalization Optimize
-When we read LLVM source code, we find that we can optimize this part to improve efficiency.
 
 ### Brief description
-### Current Progress
+When we read LLVM source code, we find that we can optimize this part to improve efficiency.
 
+### Current Progress
+We have read LegalizerInfo.cpp and related files from llvm source code. The following code is the main logic
+for type legalization.
+
+``` c
+ switch (Action) {
+  case Legal:
+  case Lower:
+  case Libcall:
+  case Custom:
+    return {Size, Action};
+  case FewerElements:
+    if (Vec == SizeAndActionsVec({{1, FewerElements}}))
+      return {1, FewerElements};
+    LLVM_FALLTHROUGH;
+  case NarrowScalar: {
+    for (int i = VecIdx - 1; i >= 0; --i)
+      if (!needsLegalizingToDifferentSize(Vec[i].second) &&
+          Vec[i].second != Unsupported)
+        return {Vec[i].first, Action};
+    llvm_unreachable("");
+  }
+  case WidenScalar:
+  case MoreElements: {
+    // See above, the following needs to be a loop, at least for now.
+    for (std::size_t i = VecIdx + 1; i < Vec.size(); ++i)
+      if (!needsLegalizingToDifferentSize(Vec[i].second) &&
+          Vec[i].second != Unsupported)
+        return {Vec[i].first, Action};
+    llvm_unreachable("");
+  }
+  case Unsupported:
+    return {Size, Unsupported};
+  case NotFound:
+  case UseLegacyRules:
+    llvm_unreachable("NotFound");
+  }
+  llvm_unreachable("Action has an unknown enum value");
+}
+
+``` 
 ### Next to do
 
 ## SWAR
