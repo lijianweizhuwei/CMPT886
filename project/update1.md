@@ -23,8 +23,9 @@ First, we need to identify the operation and vectors. It can help us decide if t
 When we read LLVM source code, we find that we can optimize this part to improve efficiency.
 
 ### Current Progress
-We have read LegalizerInfo.cpp and related files from llvm source code. The following code is the main logic
-for type legalization.
+We have read LegalizerInfo.cpp and related files from llvm source code. We are trying to override the logic for type legalization to improve efficiency and support more vector types.
+
+
 
 ``` c
  switch (Action) {
