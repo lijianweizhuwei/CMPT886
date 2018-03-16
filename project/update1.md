@@ -130,6 +130,7 @@ While all other arithmetic operations are based on add operation. Once the add o
 * The **CPU circle cost** is the **third level cost**, which isn't the total CPU circles needed by all the instructions, since basic instruction can run simultaneously.
 
 These three level cost have the same tendency, if there're more transformations, there might be more instructions, which will lead to more CPU circles when execute these instructions. 
+
 But the tendency is not always identical, considering following cases:
 1. Let α and β be two implementations, α has more instructions than β but introduces less transformations, β may be more expensive.
 2. Let α and β be two implementations, α has more instructions but those instructions have shorter CPU latency and can be execute simultaneously, β may be more expensive.
@@ -140,8 +141,11 @@ But we can only verify the above hypothesis once we finish the Type Legalization
 We can't get the optimal cost implementation as we mentioned at the beginning, but we can get the result such as if there're a lot of instructions which introduce overflow (e.g. there is a large portion of *mul*), which implementation is better than the other.
 
 ### Next to do
+
 Register number is another important parameter !
+
 If we only consider the total instruction number, we will always give up the option of SWAR, because SWAR will introduce more instructions, but it definitely save the register.
+
 Now we're facing a problem of how to quatify the register number within the three-level cost model. T_T
 
 ## Reference
