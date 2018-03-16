@@ -12,7 +12,7 @@ Therefore, we have four main areas need to be implemented in our projects.
 
 First, we need to identify the operation and vectors. It can help us decide if the vector need to be legalized and if SWAR instructions can be used. 
 
-### Progress
+### Current Progress
 
 ### Next to do
 
@@ -21,14 +21,14 @@ First, we need to identify the operation and vectors. It can help us decide if t
 When we read LLVM source code, we find that we can optimize this part to improve efficiency.
 
 ### Brief description
-### Progress
+### Current Progress
 
 ### Next to do
 
 ## SWAR
 ### Brief description
 
-### Progress
+### Current Progress
 
 ### Next to do
 
