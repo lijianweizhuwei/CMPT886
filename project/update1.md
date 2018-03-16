@@ -13,16 +13,9 @@ Therefore, we have four main areas need to be implemented in our projects.
 First, we need to identify the operation and vectors. It can help us decide if the vector need to be legalized and if SWAR instructions can be used. 
 
 ### Current Progress
-Currently, we have identified each arithmetic operation. The SWAR operation still being developed. The following code is a simple example to identify "Add" operation.
-``` c
-if (!inst.isBinaryOp() || inst.getOpcode() != Instruction::Add) {
-                        Operation;
-                    }
-```
 
 ### Next to do
-1. Optimize the identify process and implement interface for Cost table calcuation.
-2. Implement the SWAR operation. At lease, we need to achieve basic arithmetic operation.
+
 
 ## Type Legalization Optimize
 
@@ -30,59 +23,63 @@ if (!inst.isBinaryOp() || inst.getOpcode() != Instruction::Add) {
 When we read LLVM source code, we find that we can optimize this part to improve efficiency.
 
 ### Current Progress
-We have read LegalizerInfo.cpp and related files from llvm source code. We are trying to override the logic for type legalization to improve efficiency and support more vector types.
+We have done part of Legalization.cpp and related files based on llvm source code. We are trying to override the logic for type legalization to improve efficiency and support more vector types.
 
 
-
-``` c
- switch (Action) {
+``` 
+LegalizerInfo::findAction(const SizeAndActionsVec &Vec, const uint32_t Size) {
+  
+  ...
+  
+  //VecIdx stands for the current element size
+  //action stands for the legalization operation need to be done to this element type
+  
+  int VecIdx = VecIt - Vec.begin();
+  LegalizeAction Action = Vec[VecIdx].action;
+  
+  switch (Action) {
+  
   case Legal:
-  case Lower:
-  case Libcall:
-  case Custom:
-    return {Size, Action};
-  case FewerElements:
-    if (Vec == SizeAndActionsVec({{1, FewerElements}}))
-      return {1, FewerElements};
-    LLVM_FALLTHROUGH;
-  case NarrowScalar: {
-    for (int i = VecIdx - 1; i >= 0; --i)
-      if (!needsLegalizingToDifferentSize(Vec[i].second) &&
-          Vec[i].second != Unsupported)
-        return {Vec[i].first, Action};
-    llvm_unreachable("");
-  }
-  case WidenScalar:
-  case MoreElements: {
+  // Legal means this type can be supported directly or with some libraries.
+  return {Size, Action};
+  
+  case Promotion:
+  case Widen: {
     for (std::size_t i = VecIdx + 1; i < Vec.size(); ++i)
-      if (!needsLegalizingToDifferentSize(Vec[i].second) &&
-          Vec[i].second != Unsupported)
-        return {Vec[i].first, Action};
+      if (!needsLegalizingToDifferentSize(Vec[i].action) && Vec[i].action != Unsupported)
+        return {Vec[i].size, widen};
     llvm_unreachable("");
   }
+  
+  case Narrow:
+  // Only the scalar type can be supported by now
+    if (Vec == SizeAndActionsVec({{1, Narrow}}))
+      return {1, Narrow};
+    llvm_unreachable("");
+  
+  case Demotion: {
+    for (int i = VecIdx - 1; i >= 0; --i)
+      if (!needsLegalizingToDifferentSize(Vec[i].action) && Vec[i].action != Unsupported)
+        return {Vec[i].size, Demotion};
+    llvm_unreachable("");
+  }
+  
   case Unsupported:
     return {Size, Unsupported};
-  case NotFound:
-  case UseLegacyRules:
-    llvm_unreachable("NotFound");
+  
   }
   llvm_unreachable("Action has an unknown enum value");
 }
 
 ``` 
 ### Next to do
+The current implementation has the following problems:
+1. Can't support oddball types like <5 x i3>, <25 x i5> ... The reason is that the Promotion action and the Widen action  have the same implementation to get the legal element number, which means the Promotion action is only part done. Actually 
 
 ## SWAR
 ### Brief description
 
 ### Current Progress
-1) Recognize the arithmetic instruction
-2) Extract operands (i.e. 2 vectors) from the instruction
-3) Change vectors into a single vector
-4) Generate a mask for operating instruction
-5) Operate AND, XOR, ADD instructions
-6) Reverse the single vector to the original vector type
-
 
 ### Next to do
 
