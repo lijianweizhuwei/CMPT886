@@ -85,10 +85,9 @@ The current implementation has the following problems:
 ## SWAR
 ### Brief description
 
-
-2 WAYS:
-* Optimize the add instruction through pass (take)
-* Generate a new function 
+We take the simplest *add* instruction as an example. There're two ways to implement SWAR:
+* Optimizing the add instruction through pass (which we use).
+* Generating a new SWAR_add function. 
 
 Process:
 * Recognize the "add" instruction
@@ -97,7 +96,7 @@ if (!inst.isBinaryOp() || inst.getOpcode() != Instruction::Add) {
     continue;
 }
 ```
-* Extract operands (i.e. 2 vectors) from the instruction
+* Extract operand information (i.e. 2 vectors) from the instruction
 * Change vectors into a single vector
 * Generate a mask for operating instruction
 ```
@@ -111,16 +110,15 @@ llvm::BinaryOperator::CreateAnd(vector1, llvm::ConstantInt::get(Int32Ty, mask), 
 * Reverse the single vector to the original vector type
 
 Note:
-If the vector size is over 128, then give up the SWAR optimization.
-
-For the overflow, there is a way extending one bit used for the overflow. We choose to give up the overlfow and return the same data type as it was first input.
-
-### Current Progress
+Extending one bit for the overflow.
+If the vector size is over register size, then give up the SWAR option, the type legalization is much more suitable in this situation.
 
 ### Next to do
 
 All polymorphic operations can be done by the default process.
 While all other arithmetic operations are based on add operation. Once the add operation has been done, other operations like subtract, multi, dived could be done one some reversion between operations.
+
+
 
 ## Reference
 1. [Sierra: A SIMD Extension for C++](https://github.com/lijianweizhuwei/CMPT886/blob/master/file/Sierra.pdf)
@@ -133,6 +131,3 @@ While all other arithmetic operations are based on add operation. Once the add o
 8. [SWAR Support for LLVM](https://github.com/lijianweizhuwei/CMPT886/blob/master/file/SWAR_S.pdf)
 9. [General-Purpose SIMD Within A Register: Parallel Processing on Consumer Microprocessors](https://github.com/lijianweizhuwei/CMPT886/blob/master/file/swar.pdf)
 10. [LLVM Code Generator](http://llvm.org/docs/CodeGenerator.html#selectiondag-legalizetypes-phase)
-
-
-
