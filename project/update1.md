@@ -3,7 +3,7 @@
 ## Project Flowcharts
 ![Alt text](../image//flowchart.png)
 
-The picture above is a brief flowchart of our project. In our project, we must first analyze the input instructions. Then we need to determine the most appropriate process according to our cost table. In the end, We will output the comparsion between our optimize process cost and original process cost.
+The picture above is a brief flowchart of our project which is far away from our original idea. In our project, we must first analyze the input instructions. Then we need to determine the most appropriate process according to our cost table. In the end, We will output the comparsion between our optimize process cost and original process cost.
 
 Therefore, we have four main areas need to be implemented in our projects. 
 
