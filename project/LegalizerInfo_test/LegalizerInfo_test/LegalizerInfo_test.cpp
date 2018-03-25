@@ -38,39 +38,32 @@ using namespace llvm;
 const int registerSize = 128;
 
 namespace {
-  enum LegalizeTypeAction : uint8_t {
-    TypeLegal,           // The target natively supports this type.
-    TypePromoteInteger,  // Replace this integer with a larger one.
-    TypeExpandInteger,   // Split this integer into two of half the size.
-    TypeSoftenFloat,     // Convert this float to a same size integer type,
-                         // if an operation is not supported in target HW.
-    TypeExpandFloat,     // Split this float into two of half the size.
-    TypeScalarizeVector, // Replace this one-element vector with its element.
-    TypeSplitVector,     // Split this vector into two of half the size.
-    TypeWidenVector,     // This vector should be widened into a larger vector.
-    TypePromoteFloat     // Replace this float with a larger one.
-  };
+  // enum LegalizeTypeAction : uint8_t {
+  //   TypeLegal,           // The target natively supports this type.
+  //   TypePromoteInteger,  // Replace this integer with a larger one.
+  //   TypeExpandInteger,   // Split this integer into two of half the size.
+  //   TypeSoftenFloat,     // Convert this float to a same size integer type,
+  //                        // if an operation is not supported in target HW.
+  //   TypeExpandFloat,     // Split this float into two of half the size.
+  //   TypeScalarizeVector, // Replace this one-element vector with its element.
+  //   TypeSplitVector,     // Split this vector into two of half the size.
+  //   TypeWidenVector,     // This vector should be widened into a larger vector.
+  //   TypePromoteFloat     // Replace this float with a larger one.
+  // };
 
 
   struct LegalizerInfo_test : public FunctionPass {
     static char ID;
     LegalizerInfo_test() : FunctionPass(ID) {}
+
+    //*********** function declaration ************** //
     bool LegalizeTypes();
-    // bool LegalizeVectors(VectorType *vector);
     Value * widen(Value * vector, const int numElems, const int elemSize);
     Value * promote(Value * vector, const int numElems, const int elemSize);
-    bool isPowerOf2(unsigned num) {
-      while (num % 2 == 0 && num > 1) {
-        num /= 2;
-      }
-
-      return num == 1;
-    }
-
-    int nextPowerOf2(unsigned num){
-      int order = ceil(log(num) / log(2));
-      return order;
-    }
+    bool isPowerOf2(unsigned num);
+    int nextPowerOf2(unsigned num);
+    void binaryOp(Value * vector1, Value * vector2, Instruction * );
+    //***********  ending ********************* //
 
     bool runOnFunction(Function &function) override {
       errs() << "*******function name*********" << ":\n";
@@ -79,18 +72,19 @@ namespace {
       bool modified = false;
 
       for (auto &block : function) {
-        // std::vector<BitCastInst *> bitCastInstsToErase;
+        std::vector<BinaryOperator *> binInstsToErase;
 
         for (auto &inst : block) {
-          // auto bitCastInst = dyn_cast<BitCastInst>(&inst);
+          BinaryOperator * binaryOpInst = dyn_cast<BinaryOperator>(&inst);
 
-          if (!inst.isBinaryOp() || inst.getOpcode() != Instruction::Add) {  // check
+          if (!inst.isBinaryOp()) {  // check   || 
             continue;
           }
 
+          //*********** get Vector infomation **************//
+
           Value * vector1 = inst.getOperand(0);
           Value * vector2 = inst.getOperand(1);
-
           auto vectorType_1 = dyn_cast<VectorType>(vector1->getType());
           auto vectorType_2 = dyn_cast<VectorType>(vector2->getType());
           auto elemSize = vectorType_1->getScalarSizeInBits();
@@ -110,97 +104,51 @@ namespace {
             continue;   //there is no need to type legalization
           }
 
-
-          bool change = false;
+          bool modified = false;
+          bool promote_modified = false;
 
           // step 1: widen the vector
           if (elemSize < 8 || !isPowerOf2(elemSize)){
-            // *call widen vector
-            Value * widen_v1 = widen(vector1, numElems, elemSize);
-            Value * widen_v2 = widen(vector2, numElems, elemSize);
+            errs() << "We need to widen the vector: " << numElems << ":\n";
+            // *******   call widen vector **************
+            Value * vector1 = widen(vector1, numElems, elemSize);
+            Value * vector2 = widen(vector2, numElems, elemSize);
             // check result
-            auto vectorType_1 = dyn_cast<VectorType>(widen_v1->getType());
-            numElems = vectorType_1->getNumElements();
-            elemSize = vectorType_1->getScalarSizeInBits();
-            errs() << "After Widen_NumElements: " << numElems << ":\n"; 
-            errs() << "After elementsize: " << elemSize << ":\n";
+            auto vectorType_1 = dyn_cast<VectorType>(vector1->getType());
+            errs() << "After Widen_NumElements: " << vectorType_1->getNumElements() << ":\n"; 
+            errs() << "After elementsize: " << vectorType_1->getScalarSizeInBits() << ":\n";
+
+            numElems = int(vectorType_1->getNumElements());
+            modified = true;
+
           }
 
           // step 2: promote the vector
           vectorSize = numElems * elemSize;
           if (vectorSize < registerSize){
-            Value * promote_v1 = promote(vector1, numElems, elemSize);
-            auto vectorType_1 = dyn_cast<VectorType>(promote_v1->getType());
-            numElems = vectorType_1->getNumElements();
-            elemSize = vectorType_1->getScalarSizeInBits();
-            errs() << "After Widen_NumElements: " << numElems << ":\n"; 
-            errs() << "After elementsize: " << elemSize << ":\n";
-          } 
+            errs() << "Weed to promote the vector " << ":\n";
+            // *******   call promotion vector **************
+            Value * vector_1 = promote(vector1, numElems, elemSize);
+            Value * vector_2 = promote(vector2, numElems, elemSize);
+            // check result
+            auto vectorType_2 = dyn_cast<VectorType>(vector_1->getType());
+            errs() << "After promote NumElements: " << vectorType_2->getNumElements() << ":\n"; 
+            errs() << "After promote elementsize: " << vectorType_2->getScalarSizeInBits() << ":\n";
+            promote_modified = true;
+            modified = true;
+          }
 
 
+          // step3 call Binary Op
+          binaryOp(vector1, vector1, binaryOpInst);
 
 
-          // if (vectorSize < 128 && !isPowerOf2(elemSize)){
-          //   IntTy = llvm::IntegerType::getInt128Ty(inst.getContext());
-          //   uint64_t high_part = legaliz_h_part(vectorType);
-          //   uint64_t low_part = legaliz_l_part(vectorType);
-          // }
-
-
-
-
-
-          // VectorType* vector_1 = VectorType(vectorType->getVectorElementType(), numElems); 
-          // llvm::EVT ResultVT = EVT::getVectorVT(IntTy, MVT::i32, 4, /*Scalable=*/true);
-          // llvm::EVT ResultVT = inst.getValueType();
-          // errs() << vector1->getType() << ":\n";   //EVT ResultVT = 
-          // errs() << "*******inst.getOpcode()*********" << ":\n";
-          // errs() << inst.getOpcode()<< ">\n";
-          // errs() << "*******inst.isBinaryOp()*********" << ":\n";
-          // errs() << inst.isBinaryOp()<< ">\n";
-          // errs() << "*******getOpcodeNamen*************\n";
-          // errs() << llvm::AddrSpaceCastInst::getOpcodeName(add_operation->getOpcode()) << ">\n";
-          // errs() << "*************************************" << ">\n";
-
-          // auto sourceVectorType =
-          //     dyn_cast<VectorType>(add_operation->getOperand(0)->getType());
-          // if (!sourceVectorType) {
-          //   continue;
-          // }
-          // auto elemSize = sourceVectorType->getScalarSizeInBits();
-          // auto numElems = sourceVectorType->getNumElements();
-
-          // errs() << "Whether it is a valid elementtype" << ">\n";
-          // errs() << VectorType::isValidElementType(sourceVectorType)<< ">\n";
-          // errs() << "Whether it is a vector type" << ">\n";
-          // errs() << sourceVectorType->isVectorTy()<< ">\n";
-          // errs() << "get the element type" << ">\n";
-          // errs() << sourceVectorType->getVectorElementType()<< ">\n";
-          // errs() << add_operation->getOperand(0)->getType()->isVectorTy()<< ">\n";
-          // errs() << add_operation->getOperand(1)->getType()->isVectorTy()<< ">\n";
-          // errs() << "    from vector <" << numElems << " x i" << elemSize
-          //        << ">\n";
-
-          // SelectionDAG::LegalizeVectors()
-          // if (!bitCastInst->getType()->isIntegerTy()) {
-          //   continue;
-          // }
-          // auto width = add_operation->getType()->getPrimitiveSizeInBits();
-          // errs() << "    to integer i" << width << "\n";
-
-
-          errs() << "    i" << elemSize
-                  << " is an invalid vector element type."
-                  << " performing legalization\n";
-
-          bool flag = LegalizeTypes();
-          modified = true;
-          // bitCastInstsToErase.push_back(bitCastInst);
+          binInstsToErase.push_back(binaryOpInst);
         }
 
-        // for (auto &instr : bitCastInstsToErase) {
-        //   instr->eraseFromParent();
-        // }
+        for (auto &instr : binInstsToErase) {
+          instr->eraseFromParent();
+        }
       }
 
       return modified;
@@ -215,14 +163,9 @@ static RegisterPass<LegalizerInfo_test> X(
 );
 
 
-// uint64_t LegalizerInfo_test::widen_part(VectorType * vectorType) {
-
-// }
 
 Value * LegalizerInfo_test::widen(Value * vector, const int numElems, const int elemSize){
-  errs() << "We need to widen the vector: " << numElems << ":\n";
   int widen_numElems = int(pow(2, nextPowerOf2(numElems)));
-  errs() << "Widen_NumElement is: " << widen_numElems << ":\n";
   static LLVMContext TheContext;
   static IRBuilder<> Builder(TheContext);
   Value *vector_2 = Builder.CreateZExt(vector, VectorType::get(IntegerType::get(Builder.getContext(),elemSize), widen_numElems));
@@ -230,29 +173,24 @@ Value * LegalizerInfo_test::widen(Value * vector, const int numElems, const int 
 }
 
 Value * LegalizerInfo_test::promote(Value * vector, const int numElems, const int elemSize){
-  errs() << "Weed to promote the vector " << ":\n";
   int promotion_size = registerSize / numElems;
-  errs() << "promotion_size: "<< promotion_size << ":\n";
   // auto sourceVector = dyn_cast<VectorType>(vector->getType());
   static LLVMContext TheContext;
   static IRBuilder<> Builder(TheContext);
   // Vector *sourcevect = VectorType::get(IntegerType::get(Builder.getContext(),elemSize), numElems));
-  Value *lastValue;
-  for( int i = 0; i < numElems; ++i){ 
-    Value *elemValue = Builder.CreateExtractElement(vector, i);
-    Value *zextElemValue = Builder.CreateZExt(vector, IntegerType::get(Builder.getContext(), promotion_size));
-  
-    if (i == 0) {
-      lastValue = zextElemValue;
-    }
-    else {
-      Value *shiftedValue = Builder.CreateShl(zextElemValue, i * elemSize);
-      lastValue = Builder.CreateOr(lastValue, shiftedValue);
-    }
+  Value *return_value = Builder.CreateZExt(vector, VectorType::get(IntegerType::get(Builder.getContext(),promotion_size), numElems));
+  // auto elemType_2 = dyn_cast<VectorType>(return_value->getType());
+  // errs() << "After promotion numElements: " << elemType_2->getNumElements() << ":\n"; 
+  // errs() << "After promotion elementsize: " << elemType_2->getScalarSizeInBits() << ":\n";
+  return return_value;
+}
+
+void LegalizerInfo_test::binaryOp(Value * vector1, Value * vector2, Instruction * InsertBefore=nullptr){
+  static LLVMContext TheContext;
+  static IRBuilder<> Builder(TheContext);
+  if (InsertBefore->getOpcode() == Instruction::Add){
+    Builder.CreateAdd(vector1, vector1);
   }
-  Value *result = Builder.CreateTrunc(lastValue, IntegerType::get(Builder.getContext(), registerSize));
-  
-  return result;
 }
 
 
@@ -261,41 +199,15 @@ bool LegalizerInfo_test::LegalizeTypes(){
   return true;
 }
 
+bool LegalizerInfo_test::isPowerOf2(unsigned num) {
+  while (num % 2 == 0 && num > 1) {
+        num /= 2;
+  }
+  return num == 1;
+}
 
+int LegalizerInfo_test::nextPowerOf2(unsigned num){
+  int order = ceil(log(num) / log(2));
+  return order;
+}
 
-
-// void LegalizerInfo_test::legalize(llvm::BitCastInst *bitCastInst) {
-//   auto sourceVector = bitCastInst->getOperand(0);
-//   auto sourceVectorType = cast<VectorType>(sourceVector->getType());
-//   auto elemSize = sourceVectorType->getScalarSizeInBits();
-//   auto numElems = sourceVectorType->getNumElements();
-//   auto totalSize = elemSize * numElems;
-
-//   assert(numElems > 1 &&
-//          "BitcastLegalization has nothing to do with v1!");
-
-//   int legalizedTotalSize = 8;
-//   while (legalizedTotalSize < totalSize) {
-//     legalizedTotalSize *= 2;
-//   }
-
-//   IRBuilder<> builder(bitCastInst);
-
-//   Value *lastValue;
-//   for (int i = 0; i < numElems; ++i) {
-//     Value *elemValue = builder.CreateExtractElement(sourceVector, i);
-//     Value *zextElemValue = builder.CreateZExt(elemValue, IntegerType::get(builder.getContext(), legalizedTotalSize));
-
-//     if (i == 0) {
-//       lastValue = zextElemValue;
-//     }
-//     else {
-//       Value *shiftedValue = builder.CreateShl(zextElemValue, i * elemSize);
-//       lastValue = builder.CreateOr(lastValue, shiftedValue);
-//     }
-//   }
-
-//   Value *result = builder.CreateTrunc(lastValue, IntegerType::get(builder.getContext(), totalSize));
-
-//   bitCastInst->replaceAllUsesWith(result);
-// }
