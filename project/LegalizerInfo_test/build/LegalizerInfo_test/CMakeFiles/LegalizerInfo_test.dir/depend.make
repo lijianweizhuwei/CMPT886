@@ -32,6 +32,8 @@ LegalizerInfo_test/CMakeFiles/LegalizerInfo_test.dir/LegalizerInfo_test.cpp.o: /
 LegalizerInfo_test/CMakeFiles/LegalizerInfo_test.dir/LegalizerInfo_test.cpp.o: /usr/local/opt/llvm/include/llvm/ADT/iterator.h
 LegalizerInfo_test/CMakeFiles/LegalizerInfo_test.dir/LegalizerInfo_test.cpp.o: /usr/local/opt/llvm/include/llvm/ADT/iterator_range.h
 LegalizerInfo_test/CMakeFiles/LegalizerInfo_test.dir/LegalizerInfo_test.cpp.o: /usr/local/opt/llvm/include/llvm/ADT/simple_ilist.h
+LegalizerInfo_test/CMakeFiles/LegalizerInfo_test.dir/LegalizerInfo_test.cpp.o: /usr/local/opt/llvm/include/llvm/CodeGen/MachineValueType.h
+LegalizerInfo_test/CMakeFiles/LegalizerInfo_test.dir/LegalizerInfo_test.cpp.o: /usr/local/opt/llvm/include/llvm/CodeGen/ValueTypes.h
 LegalizerInfo_test/CMakeFiles/LegalizerInfo_test.dir/LegalizerInfo_test.cpp.o: /usr/local/opt/llvm/include/llvm/Config/abi-breaking.h
 LegalizerInfo_test/CMakeFiles/LegalizerInfo_test.dir/LegalizerInfo_test.cpp.o: /usr/local/opt/llvm/include/llvm/Config/llvm-config.h
 LegalizerInfo_test/CMakeFiles/LegalizerInfo_test.dir/LegalizerInfo_test.cpp.o: /usr/local/opt/llvm/include/llvm/IR/Argument.h

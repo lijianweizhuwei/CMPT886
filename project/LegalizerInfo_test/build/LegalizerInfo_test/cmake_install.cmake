@@ -1,4 +1,4 @@
-# Install script for directory: /Users/chauncey_chen/LegalizerInfo_test/LegalizerInfo_test
+# Install script for directory: /Users/chauncey_chen/TypeLegalization_SWAR/project/LegalizerInfo_test/LegalizerInfo_test
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

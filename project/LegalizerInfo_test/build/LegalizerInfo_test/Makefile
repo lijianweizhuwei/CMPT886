@@ -48,10 +48,10 @@ RM = /Applications/CMake.app/Contents/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/chauncey_chen/LegalizerInfo_test
+CMAKE_SOURCE_DIR = /Users/chauncey_chen/TypeLegalization_SWAR/project/LegalizerInfo_test
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/chauncey_chen/LegalizerInfo_test/build
+CMAKE_BINARY_DIR = /Users/chauncey_chen/TypeLegalization_SWAR/project/LegalizerInfo_test/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,14 +80,14 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	cd /Users/chauncey_chen/LegalizerInfo_test/build && $(CMAKE_COMMAND) -E cmake_progress_start /Users/chauncey_chen/LegalizerInfo_test/build/CMakeFiles /Users/chauncey_chen/LegalizerInfo_test/build/LegalizerInfo_test/CMakeFiles/progress.marks
-	cd /Users/chauncey_chen/LegalizerInfo_test/build && $(MAKE) -f CMakeFiles/Makefile2 LegalizerInfo_test/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/chauncey_chen/LegalizerInfo_test/build/CMakeFiles 0
+	cd /Users/chauncey_chen/TypeLegalization_SWAR/project/LegalizerInfo_test/build && $(CMAKE_COMMAND) -E cmake_progress_start /Users/chauncey_chen/TypeLegalization_SWAR/project/LegalizerInfo_test/build/CMakeFiles /Users/chauncey_chen/TypeLegalization_SWAR/project/LegalizerInfo_test/build/LegalizerInfo_test/CMakeFiles/progress.marks
+	cd /Users/chauncey_chen/TypeLegalization_SWAR/project/LegalizerInfo_test/build && $(MAKE) -f CMakeFiles/Makefile2 LegalizerInfo_test/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/chauncey_chen/TypeLegalization_SWAR/project/LegalizerInfo_test/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /Users/chauncey_chen/LegalizerInfo_test/build && $(MAKE) -f CMakeFiles/Makefile2 LegalizerInfo_test/clean
+	cd /Users/chauncey_chen/TypeLegalization_SWAR/project/LegalizerInfo_test/build && $(MAKE) -f CMakeFiles/Makefile2 LegalizerInfo_test/clean
 .PHONY : clean
 
 # The main clean target
@@ -97,22 +97,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /Users/chauncey_chen/LegalizerInfo_test/build && $(MAKE) -f CMakeFiles/Makefile2 LegalizerInfo_test/preinstall
+	cd /Users/chauncey_chen/TypeLegalization_SWAR/project/LegalizerInfo_test/build && $(MAKE) -f CMakeFiles/Makefile2 LegalizerInfo_test/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /Users/chauncey_chen/LegalizerInfo_test/build && $(MAKE) -f CMakeFiles/Makefile2 LegalizerInfo_test/preinstall
+	cd /Users/chauncey_chen/TypeLegalization_SWAR/project/LegalizerInfo_test/build && $(MAKE) -f CMakeFiles/Makefile2 LegalizerInfo_test/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /Users/chauncey_chen/LegalizerInfo_test/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /Users/chauncey_chen/TypeLegalization_SWAR/project/LegalizerInfo_test/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 LegalizerInfo_test/CMakeFiles/LegalizerInfo_test.dir/rule:
-	cd /Users/chauncey_chen/LegalizerInfo_test/build && $(MAKE) -f CMakeFiles/Makefile2 LegalizerInfo_test/CMakeFiles/LegalizerInfo_test.dir/rule
+	cd /Users/chauncey_chen/TypeLegalization_SWAR/project/LegalizerInfo_test/build && $(MAKE) -f CMakeFiles/Makefile2 LegalizerInfo_test/CMakeFiles/LegalizerInfo_test.dir/rule
 .PHONY : LegalizerInfo_test/CMakeFiles/LegalizerInfo_test.dir/rule
 
 # Convenience name for target.
@@ -122,7 +122,7 @@ LegalizerInfo_test: LegalizerInfo_test/CMakeFiles/LegalizerInfo_test.dir/rule
 
 # fast build rule for target.
 LegalizerInfo_test/fast:
-	cd /Users/chauncey_chen/LegalizerInfo_test/build && $(MAKE) -f LegalizerInfo_test/CMakeFiles/LegalizerInfo_test.dir/build.make LegalizerInfo_test/CMakeFiles/LegalizerInfo_test.dir/build
+	cd /Users/chauncey_chen/TypeLegalization_SWAR/project/LegalizerInfo_test/build && $(MAKE) -f LegalizerInfo_test/CMakeFiles/LegalizerInfo_test.dir/build.make LegalizerInfo_test/CMakeFiles/LegalizerInfo_test.dir/build
 .PHONY : LegalizerInfo_test/fast
 
 LegalizerInfo_test.o: LegalizerInfo_test.cpp.o
@@ -131,7 +131,7 @@ LegalizerInfo_test.o: LegalizerInfo_test.cpp.o
 
 # target to build an object file
 LegalizerInfo_test.cpp.o:
-	cd /Users/chauncey_chen/LegalizerInfo_test/build && $(MAKE) -f LegalizerInfo_test/CMakeFiles/LegalizerInfo_test.dir/build.make LegalizerInfo_test/CMakeFiles/LegalizerInfo_test.dir/LegalizerInfo_test.cpp.o
+	cd /Users/chauncey_chen/TypeLegalization_SWAR/project/LegalizerInfo_test/build && $(MAKE) -f LegalizerInfo_test/CMakeFiles/LegalizerInfo_test.dir/build.make LegalizerInfo_test/CMakeFiles/LegalizerInfo_test.dir/LegalizerInfo_test.cpp.o
 .PHONY : LegalizerInfo_test.cpp.o
 
 LegalizerInfo_test.i: LegalizerInfo_test.cpp.i
@@ -140,7 +140,7 @@ LegalizerInfo_test.i: LegalizerInfo_test.cpp.i
 
 # target to preprocess a source file
 LegalizerInfo_test.cpp.i:
-	cd /Users/chauncey_chen/LegalizerInfo_test/build && $(MAKE) -f LegalizerInfo_test/CMakeFiles/LegalizerInfo_test.dir/build.make LegalizerInfo_test/CMakeFiles/LegalizerInfo_test.dir/LegalizerInfo_test.cpp.i
+	cd /Users/chauncey_chen/TypeLegalization_SWAR/project/LegalizerInfo_test/build && $(MAKE) -f LegalizerInfo_test/CMakeFiles/LegalizerInfo_test.dir/build.make LegalizerInfo_test/CMakeFiles/LegalizerInfo_test.dir/LegalizerInfo_test.cpp.i
 .PHONY : LegalizerInfo_test.cpp.i
 
 LegalizerInfo_test.s: LegalizerInfo_test.cpp.s
@@ -149,7 +149,7 @@ LegalizerInfo_test.s: LegalizerInfo_test.cpp.s
 
 # target to generate assembly for a file
 LegalizerInfo_test.cpp.s:
-	cd /Users/chauncey_chen/LegalizerInfo_test/build && $(MAKE) -f LegalizerInfo_test/CMakeFiles/LegalizerInfo_test.dir/build.make LegalizerInfo_test/CMakeFiles/LegalizerInfo_test.dir/LegalizerInfo_test.cpp.s
+	cd /Users/chauncey_chen/TypeLegalization_SWAR/project/LegalizerInfo_test/build && $(MAKE) -f LegalizerInfo_test/CMakeFiles/LegalizerInfo_test.dir/build.make LegalizerInfo_test/CMakeFiles/LegalizerInfo_test.dir/LegalizerInfo_test.cpp.s
 .PHONY : LegalizerInfo_test.cpp.s
 
 # Help Target
@@ -175,6 +175,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /Users/chauncey_chen/LegalizerInfo_test/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /Users/chauncey_chen/TypeLegalization_SWAR/project/LegalizerInfo_test/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 
