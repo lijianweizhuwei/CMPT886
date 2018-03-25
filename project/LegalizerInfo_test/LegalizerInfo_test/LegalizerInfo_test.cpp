@@ -77,7 +77,7 @@ namespace {
         for (auto &inst : block) {
           BinaryOperator * binaryOpInst = dyn_cast<BinaryOperator>(&inst);
 
-          if (!inst.isBinaryOp()) {  // check   || 
+          if (!inst.isBinaryOp() || inst.getOpcode() != Instruction::Add) {  // check   || 
             continue;
           }
 
@@ -140,7 +140,7 @@ namespace {
 
 
           // step3 call Binary Op
-          binaryOp(vector1, vector1, binaryOpInst);
+          binaryOp(vector1, vector2, binaryOpInst);
 
 
           binInstsToErase.push_back(binaryOpInst);
