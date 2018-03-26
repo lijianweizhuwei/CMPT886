@@ -1,5 +1,5 @@
 
-# Type Legalization with Oddball <6 x i3> Vector Operation
+# Type Legalization with Oddball Vector Operation
 
 ### Algorithm
 
