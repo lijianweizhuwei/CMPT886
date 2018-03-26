@@ -10,14 +10,12 @@
 
 These three level cost have the same tendency, if there're more transformations, there might be more instructions, which will lead to more CPU circles when execute these instructions. 
 
-But the tendency is not always identical, considering following cases:
-1. Let α and β be two implementations, α has more instructions than β but introduces less transformations, β may be more expensive.
-2. Let α and β be two implementations, α has more instructions but those instructions have shorter CPU latency and can be execute simultaneously, β may be more expensive.
 
-This means these three kinds of cost need to be considered seperately. We want fewer instructions, but we also want minimum transformations, meanwhile, the CPU circle cost is also better when small.
-But we can only verify the above hypothesis once we finish the Type Legalization & SWAR part and get the three-level cost table.
+### Three-Level Down To Two-Level
 
-We can't get the optimal cost implementation as we mentioned at the beginning, but we can get the result such as if there're a lot of instructions which introduce overflow (e.g. there is a large portion of *mul*), which implementation is better than the other.
+LLVM SelectDAG legalization phase is an iterative process, first widen the vector to a power of two, and after that we split, promote, scalarize, ... 
+The legalization phase contains both **Type Legalization** and **Instruction Legalization**, the transformation cost which is the second level cost is mainly introduced by **Instruction Legalization**, because there're memory operations in **Instruction Legalization**.
+But we don't use iterative implementation, all the legalization and SWAR part are down one time! So we increase the second level 
 
 ### Next to do
 
