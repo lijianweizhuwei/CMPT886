@@ -21,7 +21,9 @@ LLVM SelectDAG legalization phase is an iterative process, first widen the vecto
 
 The legalization phase contains both **Type Legalization** and **Instruction Legalization**, the transformation cost which is the second level cost is mainly introduced by **Instruction Legalization**, because there're memory operations in **Instruction Legalization**.
 
-But we don't use iterative implementation, all the legalization and SWAR part are down one time! We increase the second level but we avoid most of the first level cost. There're still transformation cost but now they are also basic instruction set, so the first level cost now is down to second level cost.
+But we don't use iterative implementation, all the legalization and SWAR part are down one time!
+
+We increase the second level but we avoid most of the first level cost. There're still transformation cost but now they are also basic instruction set, so the first level cost now is down to second level cost.
 
 ### Third Level Cost Implementation
 
