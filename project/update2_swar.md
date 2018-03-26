@@ -57,7 +57,7 @@ define i32 @main() {
 
 #### Subtraction Algorithm
 ```
-SWAR sub z = x - y;
+SWAR sub z = x - y
 
 z = ((x | H) - (y &~H)) ^ ((x ^~y) & H)
 ```
