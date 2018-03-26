@@ -18,10 +18,13 @@ These three level cost have the same tendency, if there're more transformations,
 ![Alt text](../image//SelectionDAGBuilder.jpeg)
 
 LLVM SelectDAG legalization phase is an iterative process, first widen the vector to a power of two, and after that we split, promote, scalarize, ... 
+
 The legalization phase contains both **Type Legalization** and **Instruction Legalization**, the transformation cost which is the second level cost is mainly introduced by **Instruction Legalization**, because there're memory operations in **Instruction Legalization**.
+
 But we don't use iterative implementation, all the legalization and SWAR part are down one time! We increase the second level but we avoid most of the first level cost. There're still transformation cost but now they are also basic instruction set, so the first level cost now is down to second level cost.
 
 ### Third Level Cost Implementation
+
 The **third level cost** is the **CPU circle cost**. We introduce the **instruction allocation**, the basic idea is to allocate the execution of basic instrcutions which have longer latency as early as possible, of course this should be dynamic, achieved by additional logic. This implementation spilt the third level cost out of the three-level model.
 
 So after these rebuilding, we transform the Three-Level Cost Model into two One Level Cost Models which can be optimized seperately.
