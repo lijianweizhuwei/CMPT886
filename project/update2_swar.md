@@ -132,6 +132,6 @@ Running time:
 * bitcast
 * negative numbers
 
-<6 x i3> <i3 -1, i3 0, i3 -2, i3 -3, i3 -1, i3 -1>
+<6 x i3> <-1, 0, -2, -3, -1, -1>
 
 <6 x i3> <7, 0, 6, 5, 7, 7>
