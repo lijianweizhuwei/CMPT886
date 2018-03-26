@@ -1,9 +1,5 @@
 //===- lib/CodeGen/GlobalISel/LegalizerInfo.cpp - Legalizer ---------------===//
 //
-//                     The LLVM Compiler Infrastructure
-//
-// This file is distributed under the University of Illinois Open Source
-// License. See LICENSE.TXT for details.
 //
 //===----------------------------------------------------------------------===//
 //
@@ -13,7 +9,6 @@
 // Issues to be resolved:
 //   + Make it fast.
 //   + Support weird types like i3, <7 x i3>, ...
-//   + Operations with more than one type (ICMP, CMPXCHG, intrinsics, ...)
 //
 //===----------------------------------------------------------------------===//
 
@@ -62,7 +57,7 @@ namespace {
     Value * promote(Value * vector, const int numElems, const int elemSize);
     bool isPowerOf2(unsigned num);
     int nextPowerOf2(unsigned num);
-    void binaryOp(Value * vector1, Value * vector2, Instruction * );
+    Value * binaryOp(Value * vector1, Value * vector2, Instruction * );
     //***********  ending ********************* //
 
     bool runOnFunction(Function &function) override {
@@ -77,7 +72,8 @@ namespace {
         for (auto &inst : block) {
           BinaryOperator * binaryOpInst = dyn_cast<BinaryOperator>(&inst);
 
-          if (!inst.isBinaryOp() || inst.getOpcode() != Instruction::Add) {  // check   || 
+          if ((!inst.isBinaryOp()) || inst.getOpcode() != Instruction::Add) {  // check   || 
+            errs() << "go to continue " << ":\n";
             continue;
           }
 
@@ -85,6 +81,7 @@ namespace {
 
           Value * vector1 = inst.getOperand(0);
           Value * vector2 = inst.getOperand(1);
+
           auto vectorType_1 = dyn_cast<VectorType>(vector1->getType());
           auto vectorType_2 = dyn_cast<VectorType>(vector2->getType());
           auto elemSize = vectorType_1->getScalarSizeInBits();
@@ -128,10 +125,10 @@ namespace {
           if (vectorSize < registerSize){
             errs() << "Weed to promote the vector " << ":\n";
             // *******   call promotion vector **************
-            Value * vector_1 = promote(vector1, numElems, elemSize);
-            Value * vector_2 = promote(vector2, numElems, elemSize);
+            vector1 = promote(vector1, numElems, elemSize);
+            vector2 = promote(vector2, numElems, elemSize);
             // check result
-            auto vectorType_2 = dyn_cast<VectorType>(vector_1->getType());
+            auto vectorType_2 = dyn_cast<VectorType>(vector1->getType());
             errs() << "After promote NumElements: " << vectorType_2->getNumElements() << ":\n"; 
             errs() << "After promote elementsize: " << vectorType_2->getScalarSizeInBits() << ":\n";
             promote_modified = true;
@@ -140,13 +137,19 @@ namespace {
 
 
           // step3 call Binary Op
-          binaryOp(vector1, vector2, binaryOpInst);
+          if (promote_modified == true){
+            Value *result = binaryOp(vector1, vector2, binaryOpInst);
+            binaryOpInst->replaceAllUsesWith(result);
+            // replaceUsesOutsideBlock(result,)
+          }
+          
 
 
           binInstsToErase.push_back(binaryOpInst);
         }
-
+        errs() << "skip " << ":\n";
         for (auto &instr : binInstsToErase) {
+          errs() << "After promote NumElements: " << ":\n";
           instr->eraseFromParent();
         }
       }
@@ -168,6 +171,9 @@ Value * LegalizerInfo_test::widen(Value * vector, const int numElems, const int 
   int widen_numElems = int(pow(2, nextPowerOf2(numElems)));
   static LLVMContext TheContext;
   static IRBuilder<> Builder(TheContext);
+
+
+
   Value *vector_2 = Builder.CreateZExt(vector, VectorType::get(IntegerType::get(Builder.getContext(),elemSize), widen_numElems));
   return vector_2;
 }
@@ -177,20 +183,24 @@ Value * LegalizerInfo_test::promote(Value * vector, const int numElems, const in
   // auto sourceVector = dyn_cast<VectorType>(vector->getType());
   static LLVMContext TheContext;
   static IRBuilder<> Builder(TheContext);
-  // Vector *sourcevect = VectorType::get(IntegerType::get(Builder.getContext(),elemSize), numElems));
   Value *return_value = Builder.CreateZExt(vector, VectorType::get(IntegerType::get(Builder.getContext(),promotion_size), numElems));
-  // auto elemType_2 = dyn_cast<VectorType>(return_value->getType());
-  // errs() << "After promotion numElements: " << elemType_2->getNumElements() << ":\n"; 
-  // errs() << "After promotion elementsize: " << elemType_2->getScalarSizeInBits() << ":\n";
+
   return return_value;
 }
 
-void LegalizerInfo_test::binaryOp(Value * vector1, Value * vector2, Instruction * InsertBefore=nullptr){
+Value * LegalizerInfo_test::binaryOp(Value * vector1, Value * vector2, Instruction * InsertBefore=nullptr){
   static LLVMContext TheContext;
   static IRBuilder<> Builder(TheContext);
+  Value *return_value;
+  Value *return_value2;
   if (InsertBefore->getOpcode() == Instruction::Add){
-    Builder.CreateAdd(vector1, vector1);
+    errs() << "We are trying to add vector" << ":\n";
+    return_value = Builder.CreateAdd(vector1, vector1);
+    Value *vector_1 = Builder.CreateExtractElement(return_value, 1);
+    errs() << "We are trying to add vector"<<":\n" << *vector_1 <<":\n";
+    // BinaryOperator * r1 = BinaryOperator::Create(Instruction::Add, vector1, vector2, "", InsertBefore);   
   }
+  return return_value;
 }
 
 
