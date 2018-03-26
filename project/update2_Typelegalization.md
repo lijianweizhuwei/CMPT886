@@ -3,7 +3,7 @@
 
 ### Algorithm
 
-
+## <6 x i3>
 
 ```llvm
 define i32 @main() {
@@ -40,6 +40,7 @@ define i32 @main() {
 }
 ```
 
+## <25 x i5>
 
 ```llvm
 define i32 @main() {
