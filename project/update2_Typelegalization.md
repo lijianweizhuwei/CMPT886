@@ -26,8 +26,8 @@ define i32 @main() {
                   , <i16 0, i16 0, i16 4, i16 4, i16 4, i16 4, i16 1, i16 2>
   ret i32 0
   
-  add (i16 extractelement (<8 x i16> zext (<6 x i3> <i3 3, i3 -4, i3 2, i3 1, i3 0, i3 1> to <8 x i16>), i32 1), 
-       i16 extractelement (<8 x i16> zext (<6 x i3> <i3 3, i3 -4, i3 2, i3 1, i3 0, i3 1> to <8 x i16>), i32 1)):
+  add (i16 extractelement (<8 x i16> zext (<6 x i3> <i3 3, i3 4, i3 2, i3 1, i3 0, i3 1> to <8 x i16>), i32 1), 
+       i16 extractelement (<8 x i16> zext (<6 x i3> <i3 4, i3 4, i3 4, i3 4, i3 1, i3 2> to <8 x i16>), i32 1)):
 }
 ```
 
