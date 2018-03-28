@@ -29,4 +29,4 @@ We increase the second level but we avoid most of the first level cost. There're
 
 The **third level cost** is the **CPU circle cost**. We introduce the **instruction allocation**, the basic idea is to allocate the execution of basic instrcutions which have longer latency as early as possible, of course this should be dynamic, achieved by additional logic. This implementation spilt the third level cost out of the three-level model.
 
-So after these rebuilding, we transform the Three-Level Cost Model into two One Level Cost Models which can be optimized seperately.
+So after rebuilding, we transform the Three-Level Cost Model into two One Level Cost Models which can be optimized seperately.
