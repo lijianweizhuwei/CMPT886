@@ -119,7 +119,7 @@ define i32 @main() {
 SWAR average z = (x+y)/2 based on x + y = (x^y) + 2*(x&y)
     z = (x & y) + (((x ^ y) & ~L) >> 1)
 ```
-#### Accomplishment
+### Accomplishment
 Original file: test.ll
 ```llvm
 @.str = private constant [34 x i8] c"<6 x i3><%i, %i, %i, %i, %i, %i>\0A\00", align 1
@@ -142,7 +142,7 @@ After pass:
 
 Running time:
 ![Alt text](../image//swar_update22.jpg)
-#### Difficulties
+### Difficulties
 * Bitcast
 ```llvm
   %b1 = trunc i18 %result to i3
@@ -171,7 +171,7 @@ Running time:
 <6 x i3> <-1, 0, -2, -3, -1, -1>
 <6 x i3> <7, 0, 6, 5, 7, 7>
 
-#### Next
+### Next
 * Optimization
 * Other Operations
   * Multiplicatioin/Division
