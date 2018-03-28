@@ -17,7 +17,7 @@ These three level cost have the same tendency, if there're more transformations,
 
 ![Alt text](../image//SelectionDAGBuilder.jpeg)
 
-LLVM SelectDAG legalization phase is an iterative process, first widen the vector to a power of two, and after that we split, promote, scalarize, ... 
+LLVM SelectionDAG legalization phase is an iterative process, first widen the vector to a power of two, and after that we split, promote, scalarize, ... 
 
 The legalization phase contains both **Type Legalization** and **Instruction Legalization**, the transformation cost which is the second level cost is mainly introduced by **Instruction Legalization**, because there're memory operations in **Instruction Legalization**.
 
