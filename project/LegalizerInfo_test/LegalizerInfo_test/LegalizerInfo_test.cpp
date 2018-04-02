@@ -30,7 +30,7 @@
 
 using namespace llvm;
 
-const int registerSize = 128;
+const int registerSize = 128; 
 
 namespace {
   // enum LegalizeTypeAction : uint8_t {
@@ -104,15 +104,30 @@ namespace {
           }
 
           bool modified = false;
+          bool split_flag = false;
           bool promote_modified = false;
           bool widen_flag = false;
 
 
 
           // step 0: split the vector
-          if ((nextPowerOf2(origin_elemSize) * nextPowerOf2(origin_numElems)) > 128){
-            errs() << "We need to split the vector" << ":\n";
+          Value *new_vector_1 = nullptr;
+          Value *new_vector_2 = nullptr;
+          int split_num = 0;
+          int split_vect_maxelenum = 0;
+          int split_vect_num = 0;
+          int total_size = nextPowerOf2(origin_elemSize) * nextPowerOf2(origin_numElems);
+          if (total_size > registerSize){
+            split_flag = true;
+            split_vect_maxelenum = registerSize / nextPowerOf2(origin_elemSize);
+            split_vect_num = ceil(float(origin_numElems) / split_vect_maxelenum);
           }
+
+          if (split_flag == true){
+            errs() << "split_vect_maxelenum: " << split_vect_maxelenum << ":\n"; 
+            errs() << "split_vect_num: " << split_vect_num << ":\n";
+          }
+
 
           // step 1: widen the vector
           int numElems = origin_numElems;
