@@ -115,8 +115,8 @@ namespace {
           int split_vect_maxelenum = 0;
           int split_vect_num = 0;
           int total_size = pow(2,nextPowerOf2(origin_elemSize)) * pow(2, nextPowerOf2(origin_numElems));    // pow(2, nextPowerOf2(numElems))
-          Value *new_vector_1[split_max_num];
-          Value *new_vector_2[split_max_num];
+          Value * new_vector_1[split_max_num];
+          Value * new_vector_2[split_max_num];
           if (total_size > registerSize){
             split_flag = true;
             int after_split_eleSize = pow(2, nextPowerOf2(origin_elemSize));
@@ -127,42 +127,62 @@ namespace {
             errs() << "after_split_numElems: " << after_split_numElems <<":\n";
             errs() << "split_vect_maxelenum: " << split_vect_maxelenum <<":\n";
             errs() << "split_vect_num: " << split_vect_num <<":\n";
+            Type* split_elemunTy = IntegerType::get(Builder.getContext(),16);  //after_split_eleSize
+            Type* split_vecTy = VectorType::get(split_elemunTy, 8);   //split_vect_maxelenum
             //create split vector array
             for(int i = 0; i < split_vect_num; ++i){
-              Type* elemunTy = IntegerType::get(Builder.getContext(),after_split_eleSize);
-              Type* vecTy = VectorType::get(elemunTy, split_vect_maxelenum);
-              new_vector_1[i] = UndefValue::get(vecTy);
-              new_vector_2[i] = UndefValue::get(vecTy);
 
+              new_vector_1[i] = UndefValue::get(split_vecTy);
+              new_vector_2[i] = UndefValue::get(split_vecTy);
+
+              auto vectorType_i = dyn_cast<VectorType>(new_vector_1[i]->getType());  // auto vectorType_2 = dyn_cast<VectorType>(vector2->getType());
+              auto split_eleSize_i = vectorType_i->getScalarSizeInBits();
+              auto split_numElems_i = vectorType_i->getNumElements();
+              auto split_vectorSize_i = split_eleSize_i * split_numElems_i;
+              errs() << "*******************************************" << ":\n"; 
+              errs() << "after_split_eleSize: " << split_eleSize_i << ":\n"; 
+              errs() << "after_split_numElems: " << split_numElems_i << ":\n";
+              errs() << "after_split_vectorSize: " << split_vectorSize_i << ":\n"; 
+              errs() << "return: " << ":\n";
+              errs() << "*******************************************" << ":\n";
               for (int j = 0; j < split_vect_maxelenum; ++j){
                 errs() << "break_num: " << (j + i * (split_vect_maxelenum)) <<":\n";
                 if((j + i * (split_vect_maxelenum)) == origin_numElems){
                   break;
                 }
+                // insert value
                 Value *elemValue_1 = Builder.CreateExtractElement(vector1, j + i * (split_vect_maxelenum));
+                elemValue_1 = Builder.CreateZExt(elemValue_1, IntegerType::get(Builder.getContext(), 16));
                 Value *elemValue_2 = Builder.CreateExtractElement(vector2, j + i * (split_vect_maxelenum));
+                elemValue_2 = Builder.CreateZExt(elemValue_2, IntegerType::get(Builder.getContext(), 16));
+                auto eleValueType = cast<IntegerType>(elemValue_1->getType());
+                errs() << "Insert Value elemSize: " << eleValueType->getBitWidth() << ":\n"; 
+
                 new_vector_1[i] = Builder.CreateInsertElement(new_vector_1[i], elemValue_1, j);
                 new_vector_2[i] = Builder.CreateInsertElement(new_vector_2[i], elemValue_2, j);
                 
               }
-              // insert value
-              auto vectorType_1 = dyn_cast<VectorType>(new_vector_1[i]->getType());  // auto vectorType_2 = dyn_cast<VectorType>(vector2->getType());
-              auto split_eleSize = vectorType_1->getScalarSizeInBits();
-              auto split_numElems = vectorType_1->getNumElements();
+              auto vectorType_insert = dyn_cast<VectorType>(new_vector_1[i]->getType());  // auto vectorType_2 = dyn_cast<VectorType>(vector2->getType());
+              auto split_eleSize = vectorType_insert->getScalarSizeInBits();
+              auto split_numElems = vectorType_insert->getNumElements();
               auto split_vectorSize = split_eleSize * split_numElems;
-              errs() << "after_split_eleSize: " << split_eleSize << ":\n"; 
-              errs() << "after_split_numElems: " << split_numElems << ":\n";
-              errs() << "after_split_vectorSize: " << split_vectorSize << ":\n"; 
+              errs() << "after_insert_eleSize: " << split_eleSize << ":\n"; 
+              errs() << "after_insert_numElems: " << split_numElems << ":\n";
+              errs() << "after_insert_vectorSize: " << split_vectorSize << ":\n"; 
               errs() << "split_flag: " << split_flag << ":\n";
-              errs() << "return: " << ":\n";
               new_vector_1[i] = binaryOp(new_vector_1[i], new_vector_2[i], binaryOpInst);  
             }
           }
 
         if(split_flag == true){
+          errs() << "return: " << ":\n";
           binaryOpInst->replaceAllUsesWith(new_vector_1[0]);
           binInstsToErase.push_back(binaryOpInst);
-
+          errs() << "skip " << ":\n";
+          for (auto &instr : binInstsToErase) {
+            errs() << "After promote NumElements: " << ":\n";
+            instr->eraseFromParent();
+          }
           return split_flag;
         }
 
@@ -254,7 +274,7 @@ Value * LegalizerInfo_test::widen(Value * vector, const int numElems, const int 
 
 
   //*** version2 ***
-  Type* elemunTy = IntegerType::get(Builder.getContext(),numElems);
+  Type* elemunTy = IntegerType::get(Builder.getContext(),elemSize);
   Type* vecTy = VectorType::get(elemunTy, widen_numElems);
   Value* widen_vec = UndefValue::get(vecTy);
 
