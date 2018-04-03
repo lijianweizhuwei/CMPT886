@@ -31,7 +31,7 @@
 using namespace llvm;
 
 const int registerSize = 128; 
-
+const int split_max_num = 10;
 namespace {
   // enum LegalizeTypeAction : uint8_t {
   //   TypeLegal,           // The target natively supports this type.
@@ -89,7 +89,6 @@ namespace {
           auto origin_vectorSize = origin_elemSize * origin_numElems;
 
           errs() << vectorType_1 << ":\n";
-          errs() << "Element Size: " << llvm::VectorType::getInteger(vectorType_1) << ":\n";
           errs() << "Element Size: " << origin_elemSize << ":\n";
           errs() << "num of element: " << origin_numElems << ":\n";
           errs() << "vectorSize: " << origin_vectorSize << ":\n";
@@ -108,25 +107,66 @@ namespace {
           bool promote_modified = false;
           bool widen_flag = false;
 
-
+          static LLVMContext TheContext;
+          static IRBuilder<> Builder(TheContext);
 
           // step 0: split the vector
-          Value *new_vector_1 = nullptr;
-          Value *new_vector_2 = nullptr;
           int split_num = 0;
           int split_vect_maxelenum = 0;
           int split_vect_num = 0;
-          int total_size = nextPowerOf2(origin_elemSize) * nextPowerOf2(origin_numElems);
+          int total_size = pow(2,nextPowerOf2(origin_elemSize)) * pow(2, nextPowerOf2(origin_numElems));    // pow(2, nextPowerOf2(numElems))
+          Value *new_vector_1[split_max_num];
+          Value *new_vector_2[split_max_num];
           if (total_size > registerSize){
             split_flag = true;
-            split_vect_maxelenum = registerSize / nextPowerOf2(origin_elemSize);
+            int after_split_eleSize = pow(2, nextPowerOf2(origin_elemSize));
+            int after_split_numElems = pow(2, nextPowerOf2(origin_numElems));
+            split_vect_maxelenum = registerSize / after_split_eleSize;
             split_vect_num = ceil(float(origin_numElems) / split_vect_maxelenum);
+            errs() << "after_split_eleSize: " << after_split_eleSize <<":\n";
+            errs() << "after_split_numElems: " << after_split_numElems <<":\n";
+            errs() << "split_vect_maxelenum: " << split_vect_maxelenum <<":\n";
+            errs() << "split_vect_num: " << split_vect_num <<":\n";
+            //create split vector array
+            for(int i = 0; i < split_vect_num; ++i){
+              Type* elemunTy = IntegerType::get(Builder.getContext(),after_split_eleSize);
+              Type* vecTy = VectorType::get(elemunTy, split_vect_maxelenum);
+              new_vector_1[i] = UndefValue::get(vecTy);
+              new_vector_2[i] = UndefValue::get(vecTy);
+
+              for (int j = 0; j < split_vect_maxelenum; ++j){
+                errs() << "break_num: " << (j + i * (split_vect_maxelenum)) <<":\n";
+                if((j + i * (split_vect_maxelenum)) == origin_numElems){
+                  break;
+                }
+                Value *elemValue_1 = Builder.CreateExtractElement(vector1, j + i * (split_vect_maxelenum));
+                Value *elemValue_2 = Builder.CreateExtractElement(vector2, j + i * (split_vect_maxelenum));
+                new_vector_1[i] = Builder.CreateInsertElement(new_vector_1[i], elemValue_1, j);
+                new_vector_2[i] = Builder.CreateInsertElement(new_vector_2[i], elemValue_2, j);
+                
+              }
+              // insert value
+              auto vectorType_1 = dyn_cast<VectorType>(new_vector_1[i]->getType());  // auto vectorType_2 = dyn_cast<VectorType>(vector2->getType());
+              auto split_eleSize = vectorType_1->getScalarSizeInBits();
+              auto split_numElems = vectorType_1->getNumElements();
+              auto split_vectorSize = split_eleSize * split_numElems;
+              errs() << "after_split_eleSize: " << split_eleSize << ":\n"; 
+              errs() << "after_split_numElems: " << split_numElems << ":\n";
+              errs() << "after_split_vectorSize: " << split_vectorSize << ":\n"; 
+              errs() << "split_flag: " << split_flag << ":\n";
+              errs() << "return: " << ":\n";
+              new_vector_1[i] = binaryOp(new_vector_1[i], new_vector_2[i], binaryOpInst);  
+            }
           }
 
-          if (split_flag == true){
-            errs() << "split_vect_maxelenum: " << split_vect_maxelenum << ":\n"; 
-            errs() << "split_vect_num: " << split_vect_num << ":\n";
-          }
+        if(split_flag == true){
+          binaryOpInst->replaceAllUsesWith(new_vector_1[0]);
+          binInstsToErase.push_back(binaryOpInst);
+
+          return split_flag;
+        }
+
+
 
 
           // step 1: widen the vector
