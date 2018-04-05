@@ -52,8 +52,8 @@ namespace {
                     if (!inst.isBinaryOp() || inst.getOpcode() != Instruction::Add) {
                         continue;
                     }
-                    LLVMContext & context = llvm::getGlobalContext();
                     BinaryOperator * addInst = dyn_cast<BinaryOperator>(&inst);
+                    LLVMContext & context = llvm::getGlobalContext();
                     errs() << "  found binary instruction\n";
 
                     Value * vector1 = inst.getOperand(0);
@@ -62,7 +62,6 @@ namespace {
                     auto vectorType = dyn_cast<VectorType>(vector1->getType());
                     auto elemSize = vectorType->getScalarSizeInBits();
                     auto numElems = vectorType->getNumElements();
-
                     errs() << "    from vector <" << numElems << " x i" << elemSize << ">\n";
 
                     auto vectorSize = elemSize * numElems;
@@ -78,10 +77,12 @@ namespace {
                     Value * a1 = bitcast(vector1, addInst);
                     Value * a2 = bitcast(vector2, addInst);
 
-                    Value * result = swar_add(a1, a2, vectorType, addInst);
+                    Value * r4 = swar_add(a1, a2, vectorType, addInst);
+
+                    BitCastInst * BCI3 = new llvm::BitCastInst(r4, vectorType, "", addInst);
 
                     addInstsToErase.push_back(addInst);
-                    addInst->replaceAllUsesWith(result);
+                    addInst->replaceAllUsesWith((Value *)BCI3);
                 }
 
                 for (auto &instr : addInstsToErase) {
@@ -99,7 +100,8 @@ char Swar::ID = 0;
 static RegisterPass<Swar> X("Swar", "SWAR", false, false);
 
 /**
- * Swar addition instructions
+ * Lists all Check models.
+ * @return mixed
  */
 Value * Swar::swar_add(Value * a1, Value * a2, VectorType * vectorType, Instruction * addInst) {
     Constant * lmask = generateMask(vectorType, LOWMASK);
@@ -112,26 +114,22 @@ Value * Swar::swar_add(Value * a1, Value * a2, VectorType * vectorType, Instruct
     BinaryOperator * r3 = BinaryOperator::Create(Instruction::And, (Value *)r2, (Value *)hmask, "", addInst);
     BinaryOperator * r4 = BinaryOperator::Create(Instruction::Xor, (Value *)r1, (Value *)r3, "", addInst);
 
-    LLVMContext & context = llvm::getGlobalContext();
-    auto elementType = Type::getInt8Ty(context);
-    auto legalType = VectorType::get(elementType, 16);
-
-    ZExtInst * r5 = new ZExtInst((Value *)r4, Type::getInt128Ty(context), "", addInst);
-    BitCastInst * result = new llvm::BitCastInst(r5, legalType, "", addInst);
-
-    return (Value *)result;
+    return (Value *)r4;
 }
 
 /**
  * Bitcast Legalization
  * Ex: <6 * i3> <i3 3, i3 4, i3 2, i3 1, i3 0, i3 1>
  * To: <i18> Octal: 101243 Decimal: 33443
+ * @return mixed
  */
 Value * Swar::bitcast(Value * vector, BinaryOperator * addInst) {
     auto vectorType = cast<VectorType>(vector->getType());
     auto elemSize = vectorType->getScalarSizeInBits();
     auto numElems = vectorType->getNumElements();
     auto totalSize = elemSize * numElems;
+
+    // assert(numElems > 1 && "BitcastLegalization has nothing to do with v1!");
 
     unsigned int legalizedTotalSize = 8;
     while (legalizedTotalSize < totalSize) {
@@ -154,7 +152,7 @@ Value * Swar::bitcast(Value * vector, BinaryOperator * addInst) {
         }
     }
 
-    Value * result = builder.CreateTrunc(lastValue, IntegerType::get(builder.getContext(), legalizedTotalSize));
+    Value * result = builder.CreateTrunc(lastValue, IntegerType::get(builder.getContext(), totalSize));
     return result;
 }
 
@@ -162,11 +160,7 @@ Value * Swar::bitcast(Value * vector, BinaryOperator * addInst) {
 Constant * Swar::generateMask(VectorType * vectorType, bool isLow = false) {
     auto elemSize = vectorType->getScalarSizeInBits();
     auto numElems = vectorType->getNumElements();
-    unsigned int legalizedTotalSize = 8;
-    while (legalizedTotalSize < elemSize * numElems) {
-        legalizedTotalSize *= 2;
-    }
-    Type * castTy = llvm::IntegerType::get(llvm::getGlobalContext(), legalizedTotalSize);
+    Type * castTy = llvm::IntegerType::get(llvm::getGlobalContext(), elemSize * numElems);
 
     char * ptr;
     char string[128];
