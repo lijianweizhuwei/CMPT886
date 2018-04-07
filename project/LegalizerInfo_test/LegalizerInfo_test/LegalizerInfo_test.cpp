@@ -86,13 +86,15 @@ struct LegalizerInfo_test : public FunctionPass {
                 bool split_flag = false;
                 bool promote_modified = false;
                 bool widen_flag = false;
+                bool split_flag_1 = false;
+                bool split_flag_2 = false;
 
                 for(int vec_num=1; vec_num<=2; vec_num++){
             
                     bool vec_typelegalize = true;
                     // auto vectorType;
 
-                    Value * vector = inst.getOperand(vec_num-1);;
+                    Value * vector = inst.getOperand(vec_num - 1);;
                     auto vectorType = dyn_cast<VectorType>(vector->getType());
 
 
@@ -124,11 +126,16 @@ struct LegalizerInfo_test : public FunctionPass {
                     int split_vect_num = 0;
                     int total_size = pow(2,nextPowerOf2(origin_elemSize)) * pow(2, nextPowerOf2(origin_numElems));    // pow(2, nextPowerOf2(numElems))
                     Value * new_vector[split_max_num];
-                    bool split_flag = false;
 
                     // check whether we need split or not
                     if (total_size > registerSize){
-                        split_flag = true;
+                        
+                        if (vec_num == 1){
+                            split_flag_1 = true;
+                        }else{
+                            split_flag_2 = true;
+                        }
+
                         bool widen_element_flag = isPowerOf2(origin_elemSize);
                         int after_split_eleSize = pow(2, nextPowerOf2(origin_elemSize));          
                         int after_split_numElems = pow(2, nextPowerOf2(origin_numElems));
@@ -213,9 +220,19 @@ struct LegalizerInfo_test : public FunctionPass {
 
 
                     if (vec_num == 1){
-                        vector1 = vector;
-                    }else{
-                        vector2 = vector;
+                        if (split_flag_1 == false){
+                            vector1 = vector;
+                        }else{
+                            vector1 = new_vector[0];
+                        }
+                    }
+                        
+                    if (vec_num == 2){
+                        if (split_flag_2 == false){
+                            vector2 = vector;
+                        }else{
+                            vector2 = new_vector[0];
+                        }
                     }
 
 
@@ -224,14 +241,17 @@ struct LegalizerInfo_test : public FunctionPass {
 
                 Value *result;
                 // step3 call Binary Op
-                if (split_flag == true){
+                if (split_flag_1 == true && split_flag_2 == true){
                     result = binaryOp(vector1, vector2, binaryOpInst);
                 }else if (promote_modified == true){
                     result = binaryOp(vector1, vector2, binaryOpInst);
-                    auto vectorType_1 = dyn_cast<VectorType>(result->getType());
-                    errs() << "Element Size: " << vectorType_1->getScalarSizeInBits() << ":\n";
-                    errs() << "num of element: " << vectorType_1->getNumElements() << ":\n"; 
+                }else{
+                    result = binaryOp(vector1, vector2, binaryOpInst);
                 }
+
+                auto vectorType_1 = dyn_cast<VectorType>(result->getType());
+                errs() << "Element Size: " << vectorType_1->getScalarSizeInBits() << ":\n";
+                errs() << "num of element: " << vectorType_1->getNumElements() << ":\n"; 
 
                 binInstsToErase.push_back(binaryOpInst);
                 binaryOpInst->replaceAllUsesWith(result);

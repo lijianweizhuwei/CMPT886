@@ -2,13 +2,16 @@
 declare i32 @printf(i8*, ...)
 
 define i32 @main() {
-  %a = add <6 x i3> <i3 3, i3 4, i3 2, i3 1, i3 0, i3 -1>, <i3 4, i3 4, i3 4, i3 4, i3 -1, i3 -2>
-  %a0 = extractelement <6 x i3> %a, i32 0
-  %a1 = extractelement <6 x i3> %a, i32 1
-  %a2 = extractelement <6 x i3> %a, i32 2
-  %a3 = extractelement <6 x i3> %a, i32 3
-  %a4 = extractelement <6 x i3> %a, i32 4
-  %a5 = extractelement <6 x i3> %a, i32 5
-  %1 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([34 x i8], [34 x i8]* @.str, i32 0, i32 0), i3 %a0, i3 %a1, i3 %a2, i3 %a3, i3 %a4, i3 %a5)
+    %a = add <6 x i3> <i3 3, i3 4, i3 2, i3 1, i3 0, i3 -1>, <i3 4, i3 4, i3 4, i3 4, i3 -1, i3 -2>
+    %b = add <6 x i3> <i3 3, i3 4, i3 2, i3 1, i3 0, i3 -1>, <i3 4, i3 4, i3 4, i3 4, i3 -1, i3 -2>
+    %c = add <6 x i3> <i3 3, i3 4, i3 2, i3 1, i3 0, i3 -1>, <i3 4, i3 4, i3 4, i3 4, i3 -1, i3 -2>
+    %d = add <6 x i3> <i3 3, i3 4, i3 2, i3 1, i3 0, i3 -1>, <i3 4, i3 4, i3 4, i3 4, i3 -1, i3 -2>
+    %e = add <6 x i3> <i3 3, i3 4, i3 2, i3 1, i3 0, i3 -1>, <i3 4, i3 4, i3 4, i3 4, i3 -1, i3 -2>
+    %f = add <6 x i3> <i3 3, i3 4, i3 2, i3 1, i3 0, i3 -1>, <i3 4, i3 4, i3 4, i3 4, i3 -1, i3 -2>
+    %g = add <6 x i3> <i3 3, i3 4, i3 2, i3 1, i3 0, i3 -1>, <i3 4, i3 4, i3 4, i3 4, i3 -1, i3 -2>
+    %h = add <6 x i3> <i3 3, i3 4, i3 2, i3 1, i3 0, i3 -1>, <i3 4, i3 4, i3 4, i3 4, i3 -1, i3 -2>
+    %i = add <6 x i3> <i3 3, i3 4, i3 2, i3 1, i3 0, i3 -1>, <i3 4, i3 4, i3 4, i3 4, i3 -1, i3 -2>
+    %j = add <6 x i3> <i3 3, i3 4, i3 2, i3 1, i3 0, i3 -1>, <i3 4, i3 4, i3 4, i3 4, i3 -1, i3 -2>
+
   ret i32 0
 }
