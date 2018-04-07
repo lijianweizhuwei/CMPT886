@@ -3,6 +3,8 @@ declare i32 @printf(i8*, ...)
 
 define i32 @main() {
   %a = add <6 x i3> <i3 3, i3 4, i3 2, i3 1, i3 0, i3 1>, <i3 4, i3 4, i3 4, i3 4, i3 -1, i3 -2>
+  %b = add <6 x i3> <i3 4, i3 4, i3 4, i3 4, i3 -1, i3 -2>, %a
+
   %a0 = extractelement <6 x i3> %a, i32 0
   %a1 = extractelement <6 x i3> %a, i32 1
   %a2 = extractelement <6 x i3> %a, i32 2
