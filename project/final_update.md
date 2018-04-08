@@ -1,6 +1,7 @@
-# SIMD Legalization and SWAR
+# Swar and Type Legalization decision model
 
-## Project Introduction
+
+## SWAR and Type Legalization difference
 ![Alt text](../image//SelectionDAG.png)
 
 LLVM uses a SelectionDAG-based instruction selector, which translates the LLVM IR code to target machine instructions. We focus on SelectionDAG LegalizeTypes Phase.
