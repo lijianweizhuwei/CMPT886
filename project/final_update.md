@@ -6,7 +6,7 @@
 
 ```llvm
 define i32 @main() {
-  %a = add <6 x i3> <i3 3, i3 4, i3 2, i3 1, i3 0, i3 1>, <i3 4, i3 3, i3 1, i3 4, i3 1, i3 2>
+  %1 = add <6 x i3> <i3 3, i3 4, i3 2, i3 1, i3 0, i3 1>, <i3 4, i3 3, i3 1, i3 4, i3 1, i3 2>
   ret i32 0
 }
 ```
@@ -17,12 +17,29 @@ In the IR pass, we first widen the vector type from <6 x i3> to <8 x i3>. Then, 
 ```llvm
 
 define i32 @main() {
+  %1 = and i32 131747, 112347
+  %2 = and i32 108836, 112347
+  %3 = add i32 %1, %2
+  %4 = xor i32 131747, 108836
+  %5 = and i32 %4, 149796
+  %6 = xor i32 %3, %5
+  %7 = zext i32 %6 to i128
+  %8 = bitcast i128 %7 to <16 x i8>
+  ret i32 0  
+}
+```
+### <6 x i3> Swar Code
+
+
+```llvm
+
+define i32 @main() {
   %a = add <8 x i16> <i16 0, i16 0, i16 3, i16 4, i16 2, i16 1, i16 0, i16 1>, 
                      <i16 0, i16 0, i16 4, i16 3, i16 1, i16 4, i16 1, i16 2>
   ret i32 0
 }
 ```
-### <6 x i3> Swar Code
+
 
 LLVM uses a SelectionDAG-based instruction selector, which translates the LLVM IR code to target machine instructions. We focus on SelectionDAG LegalizeTypes Phase.
 
