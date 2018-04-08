@@ -6,22 +6,23 @@
 
 ```llvm
 define i32 @main() {
-  %a = add <6 x i3> <i3 3, i3 4, i3 2, i3 1, i3 0, i3 1>, <i3 4, i3 4, i3 4, i3 4, i3 1, i3 2>
+  %a = add <6 x i3> <i3 3, i3 4, i3 2, i3 1, i3 0, i3 1>, <i3 4, i3 3, i3 1, i3 4, i3 1, i3 2>
   ret i32 0
 }
 ```
 
-### <6 x i3> type legalization code
+### <6 x i3> Type Legalization Code
 In the IR pass, we first widen the vector type from <6 x i3> to <8 x i3>. Then, we promote the vector from <8 x i3> to <8 x i16>. Finally, we replace the llvm code and get the following result.
 
 ```llvm
-// type legalization generate code.
+
 define i32 @main() {
-  %a = add <8 x i16> <i3 3, i3 4, i3 2, i3 1, i3 0, i3 1>, <i3 4, i3 4, i3 4, i3 4, i3 1, i3 2>
+  %a = add <8 x i16> <i16 0, i16 0, i16 3, i16 4, i16 2, i16 1, i16 0, i16 1>, 
+                     <i16 0, i16 0, i16 4, i16 3, i16 1, i16 4, i16 1, i16 2>
   ret i32 0
 }
 ```
-### <6 x i3> type legalization code
+### <6 x i3> Swar Code
 
 LLVM uses a SelectionDAG-based instruction selector, which translates the LLVM IR code to target machine instructions. We focus on SelectionDAG LegalizeTypes Phase.
 
