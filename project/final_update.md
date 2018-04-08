@@ -2,7 +2,25 @@
 
 
 ## The Difference Between Swar and Type Legalization
-![Alt text](../image//SelectionDAG.png)
+### <6 x i3> original code
+
+```llvm
+define i32 @main() {
+  %a = add <6 x i3> <i3 3, i3 4, i3 2, i3 1, i3 0, i3 1>, <i3 4, i3 4, i3 4, i3 4, i3 1, i3 2>
+  ret i32 0
+}
+```
+
+### <6 x i3> type legalization code
+In the IR pass, we first widen the vector type from <6 x i3> to <8 x i3>. Then, we promote the vector from <8 x i3> to <8 x i16>. Finally, we replace the llvm code and get the following result.
+
+```llvm
+define i32 @main() {
+  %a = add <8 x i16> <i3 3, i3 4, i3 2, i3 1, i3 0, i3 1>, <i3 4, i3 4, i3 4, i3 4, i3 1, i3 2>
+  ret i32 0
+}
+```
+### <6 x i3> type legalization code
 
 LLVM uses a SelectionDAG-based instruction selector, which translates the LLVM IR code to target machine instructions. We focus on SelectionDAG LegalizeTypes Phase.
 
