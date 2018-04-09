@@ -2,7 +2,8 @@
 
 
 ## The Difference Between Swar and Type Legalization
-### <6 x i3> original code
+### <6 x i3> Vector Type
+#### <6 x i3> original code
 
 ```llvm
 define i32 @main() {
@@ -11,7 +12,7 @@ define i32 @main() {
 }
 ```
 
-### <6 x i3> Type Legalization Code
+#### <6 x i3> Type Legalization Code
 In the IR pass, we first widen the vector type from <6 x i3> to <8 x i3>. Then, we promote the vector from <8 x i3> to <8 x i16>. Finally, we replace the llvm code and get the following result.
 
 ```llvm
@@ -28,7 +29,7 @@ define i32 @main() {
   ret i32 0  
 }
 ```
-### <6 x i3> Swar Code
+#### <6 x i3> Swar Code
 
 
 ```llvm
