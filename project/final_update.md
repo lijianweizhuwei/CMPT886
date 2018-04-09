@@ -20,6 +20,18 @@ In the IR pass, we first widen the vector type from <6 x i3> to <8 x i3>. Then, 
 ```llvm
 
 define i32 @main() {
+  %a = add <8 x i16> <i16 0, i16 0, i16 3, i16 4, i16 2, i16 1, i16 0, i16 1>, 
+                     <i16 0, i16 0, i16 4, i16 3, i16 1, i16 4, i16 1, i16 2>
+  ret i32 0
+}
+
+```
+#### Swar Code
+
+
+```llvm
+
+define i32 @main() {
   %1 = and i32 131747, 112347
   %2 = and i32 108836, 112347
   %3 = add i32 %1, %2
@@ -30,17 +42,7 @@ define i32 @main() {
   %8 = bitcast i128 %7 to <16 x i8>
   ret i32 0  
 }
-```
-#### Swar Code
 
-
-```llvm
-
-define i32 @main() {
-  %a = add <8 x i16> <i16 0, i16 0, i16 3, i16 4, i16 2, i16 1, i16 0, i16 1>, 
-                     <i16 0, i16 0, i16 4, i16 3, i16 1, i16 4, i16 1, i16 2>
-  ret i32 0
-}
 ```
 ### <5 x i25> Vector Type
 #### original code
