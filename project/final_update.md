@@ -122,7 +122,7 @@ define i32 @main() {
 ```
 ## The Decision model in a series of instructions
 ### A sequence of instructions
-Here is an example of a series of llvm instruction. From each line we need to decide whether we 
+Here is an example of a series of llvm instruction. From each line, we need to decide whether we should generate Type Legalization、 SWAR or remain the original instruction after our IR pass.
 ```llvm
 define i32 @main() {
   %1 = add <6 x i5> <i5 7, i5 11, i5 0, i5 12, i5 7, i5 1>,
@@ -144,6 +144,23 @@ ret i32 0
 }
 
 ```
+### IR Pass for each instruction decision
+```C++
+  if (decision_flag == 1) {
+     Swar * swar = new Swar(vector1, vector2, addInst);
+     result = swar->operate();
+  }else if (decision_flag == 2){
+     errs() << "We are trying to legalize " <<":\n";
+     Type_Legalization * type_legalization = new Type_Legalization(vector1, vector2, addInst);
+     result = type_legalization->legalize();
+  }
+```
+### How to make the decision
+We use the machine learning algorithm to make decision for each input instruction. The following is a brief introduction to our current algorithm.
+
+First, we test a bunch of instructions through Type Legalization、 SWAR and original instruction to get the training data set. When a new instruction enter, we get several high similarity instructions from the training set. Finally, we can use our algorithm to make decision for this instruction.
+
+
 
 
 
