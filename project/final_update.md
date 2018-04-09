@@ -64,6 +64,29 @@ define i32 @main() {
 ret i32 0
 }
 ```
+#### <17 x i15> Type Legalization Code(Actual)
+```llvm
+define i32 @main() {
+  %a = add <8 x i16> <i16 0, i16 12, i16 14, i16 3, i16 7, i16 11, i16 0, i16 12>,
+                      <i16 18, i16 13, i16 11, i16 61, i16 76, i16 -21, i16 15, i16 44>
+ret i32 0
+}
+```
+
+Why we only return the first vector in Type Legalization. The reason is that we have a problem if a variable is called multiple times in a series of instructions. The following llvm instruction is a simple example. The variable a is been used 2 times. However, it will be splitted in the first step. We cannot use the ideal type legalization method in the next line. Therefore, we only return the first vector(which means we only return the low bits data). 
+```llvm
+define i32 @main() {
+  %a = add <17 x i15> <i15 3, i15 7, i15 11, i15 0, i15 12, i15 14, i15 3, i15 7, i15 11, i15 0, i15 12, i15 14, i15 3, i15 7, i15 11, i15 0, i15 12>, 
+                      <i15 4, i15 13, i15 15, i15 6, i15 22, i15 18, i15 14, i15 17, i15 12, i15 18, i15 13, i15 11, i15 61, i15 76, i15 -21, i15 15, i15 44>
+  %b = add <17 x i15> %a, <i15 2, i15 11, i15 35, i15 16, i15 26, i15 19, i15 20, i15 21, i15 31, i15 33, i15 5, i15 7, i15 91, i15 96, i15 21, i15 3, i15 101>                   
+  ret i32 0
+}
+```
+
+
+
+
+
 
 LLVM uses a SelectionDAG-based instruction selector, which translates the LLVM IR code to target machine instructions. We focus on SelectionDAG LegalizeTypes Phase.
 
