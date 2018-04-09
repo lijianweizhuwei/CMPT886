@@ -60,7 +60,9 @@ define i32 @main() {
   %a1 = add <8 x i16> <i16 7, i16 11, i16 0, i16 12, i16 14, i16 3, i16 7, i16 11>,
                       <i16 13, i16 15, i16 6, i16 22, i16 18, i16 14, i16 17, i16 12>
   %a2 = add <8 x i16> <i16 3, i16 0, i16 0, i16 0, i16 0, i16 0, i16 0, i16 0>,
-                      <i16 4, i16 0, i16 0, i16 0, i16 0, i16 0, i16 0, i16 0>                  
+                      <i16 4, i16 0, i16 0, i16 0, i16 0, i16 0, i16 0, i16 0>
+ret i32 0
+}
 ```
 
 LLVM uses a SelectionDAG-based instruction selector, which translates the LLVM IR code to target machine instructions. We focus on SelectionDAG LegalizeTypes Phase.
