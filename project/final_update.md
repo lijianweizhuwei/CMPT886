@@ -2,6 +2,8 @@
 
 
 ## The Difference Between Swar and Type Legalization
+We use some special vectors operation as example.
+
 ### <6 x i3> Vector Type
 #### <6 x i3> original code
 
