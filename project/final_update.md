@@ -156,9 +156,9 @@ ret i32 0
   }
 ```
 ### How to make the decision
-We use the machine learning algorithm to make decision for each input instruction. The following is a brief introduction to our current algorithm.
+We use the machine learning algorithm to make the decision for each input instruction. The following is a brief introduction to our current algorithm.
 
-First, we test a bunch of instructions through Type Legalization、 SWAR and original instruction to get the training data set. When a new instruction enter, we get several high similarity instructions from the training set. Finally, we can use our algorithm to make decision for this instruction.
+First, we test a bunch of instructions through Type Legalization、 SWAR and original instruction to get the training dataset. When a new instruction enter, we get several high similarity instructions from the training set. Finally, we can use our algorithm to make the decision for this instruction.
 
 
 
