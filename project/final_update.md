@@ -51,7 +51,7 @@ define i32 @main() {
 }
 ```
 #### <17 x i15> Type Legalization Code(Ideal)
-Ideally, we need to split the vector at first. Then we will widen and promote each vector later.Here is the generate llvm code after IR pass.
+Ideally, we need to split the vector at first. Then we will widen and promote each vector later. Here is the generate llvm code after IR pass. We can do that in one instruction.
 
 ```llvm
 define i32 @main() {
