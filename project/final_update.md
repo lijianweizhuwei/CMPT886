@@ -2,7 +2,7 @@
 
 
 ## The Difference Between Swar and Type Legalization
-We use some special vectors operation as example to show the difference generate code after swar or type legalization pass.
+We use some special vectors operation as examples to show the difference generate code after Swar or Type Legalization IR pass.
 
 ### <6 x i3> Vector Type
 #### original code
@@ -15,7 +15,7 @@ define i32 @main() {
 ```
 
 #### Type Legalization Code(Need widen and promote)
-In the IR pass, we first widen the vector type from <6 x i3> to <8 x i3>. Then, we promote the vector from <8 x i3> to <8 x i16>. Finally, we replace the llvm code and get the following result.
+In the IR pass, we first widen the vector type from <6 x i3> to <8 x i3>. Then, we promote the vector from <8 x i3> to <8 x i16>. Finally, we replace the LLVM code and get the following result.
 
 ```llvm
 
@@ -27,7 +27,6 @@ define i32 @main() {
 
 ```
 #### Swar Code
-
 
 ```llvm
 
@@ -55,7 +54,7 @@ define i32 @main() {
 }
 ```
 #### Type Legalization Code(Ideal)
-Ideally, we need to split the vector at first. Then we will widen and promote each vector later. Here is the generate llvm code after IR pass. We can do that in one instruction.
+Ideally, we need to split the vector at first. Then we will widen and promote each vector later. Here is the generate LLVM code after IR pass. We can do that in one instruction.
 
 ```llvm
 define i32 @main() {
@@ -75,7 +74,8 @@ ret i32 0
 }
 ```
 
-Why we only return the first vector in Type Legalization. The reason is that we have a problem if a variable is called multiple times in a series of instructions. The following llvm instruction is a simple example. The variable a is been used 2 times. However, it will be splitted in the first step. We cannot use the ideal type legalization method in the next line. Therefore, we only return the first vector(which means we only return the low bits data).
+Why we only return the first vector through Type Legalization？ The reason is that we have a problem if a variable is been used several times in a series of instructions. The following LLVM instruction is a simple example. 
+The variable a is been used 2 times. However, it will be split in the first step. We cannot use the ideal type legalization method in the next line. Therefore, we only return the first vector(which means we only return the low bits data).
 
 ### Simple example
 ```llvm
