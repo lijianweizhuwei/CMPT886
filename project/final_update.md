@@ -5,7 +5,7 @@
 We use some special vectors operation as example.
 
 ### <6 x i3> Vector Type
-#### <6 x i3> original code
+#### original code
 
 ```llvm
 define i32 @main() {
@@ -14,7 +14,7 @@ define i32 @main() {
 }
 ```
 
-#### <6 x i3> Type Legalization Code(Need widen and promote)
+#### Type Legalization Code(Need widen and promote)
 In the IR pass, we first widen the vector type from <6 x i3> to <8 x i3>. Then, we promote the vector from <8 x i3> to <8 x i16>. Finally, we replace the llvm code and get the following result.
 
 ```llvm
@@ -31,7 +31,7 @@ define i32 @main() {
   ret i32 0  
 }
 ```
-#### <6 x i3> Swar Code
+#### Swar Code
 
 
 ```llvm
@@ -43,7 +43,7 @@ define i32 @main() {
 }
 ```
 ### <5 x i25> Vector Type
-#### <5 x i25> original code
+#### original code
 
 ```llvm
 define i32 @main() {
@@ -52,7 +52,7 @@ define i32 @main() {
   ret i32 0
 }
 ```
-#### <5 x i25> Type Legalization Code(Ideal)
+#### Type Legalization Code(Ideal)
 Ideally, we need to split the vector at first. Then we will widen and promote each vector later. Here is the generate llvm code after IR pass. We can do that in one instruction.
 
 ```llvm
@@ -64,7 +64,7 @@ define i32 @main() {
 ret i32 0
 }
 ```
-#### <17 x i15> Type Legalization Code(Actual)
+#### Type Legalization Code(Actual)
 ```llvm
 define i32 @main() {
   %a = add <4 x i32> <i32 7, i32 11, i32 0, i32 12>,
@@ -86,7 +86,7 @@ define i32 @main() {
 ```
 
 ### <128 x i1> Vector Type
-#### <128 x i1> original code
+#### original code
 
 ```llvm
 define i32 @main() {
@@ -98,7 +98,7 @@ define i32 @main() {
 }
 ```
 
-#### <128 x i1> Type Legalization code
+#### Type Legalization code
 ```llvm
 define i32 @main() {
   %a = add <16 x i8> < i1 0, i1 1, i1 0, i1 1, i1 0, i1 1, i1 0, i1 1>, 
@@ -108,7 +108,7 @@ define i32 @main() {
 }
 ```
 
-#### <128 x i1> SWAR code
+#### SWAR code
 ```llvm
 define i32 @main() {
   %a = XOR <128 x i1> <i1 1, i1 1, i1 0, i1 1, i1 0, i1 1, i1 0, i1 1, i1 0, i1 1, i1 0, i1 1, i1 0, i1 1, i1 0, i1 1, i1 1, i1 1, i1 0, i1 1, i1 0, i1 1, i1 0, i1 1, i1 0, i1 1, i1 0, i1 1, i1 0, i1 1, i1 0, i1 1, i1 1, i1 1, i1 0, i1 1, i1 0, i1 1, i1 0, i1 1, i1 0, i1 1, i1 0, i1 1, i1 0, i1 1, i1 0, i1 1, i1 1, i1 1, i1 0, i1 1, i1 0, i1 1, i1 0, i1 1, i1 0, i1 1, i1 0, i1 1, i1 0, i1 1, i1 0, i1 1, i1 1, i1 1, i1 0, i1 1, i1 0, i1 1, i1 0, i1 1, i1 0, i1 1, i1 0, i1 1, i1 0, i1 1, i1 0, i1 1, i1 1, i1 1, i1 0, i1 1, i1 0, i1 1, i1 0, i1 1, i1 0, i1 1, i1 0, i1 1, i1 0, i1 1, i1 0, i1 1, i1 1, i1 1, i1 0, i1 1, i1 0, i1 1, i1 0, i1 1, i1 0, i1 1, i1 0, i1 1, i1 0, i1 1, i1 0, i1 1, i1 1, i1 1, i1 0, i1 1, i1 0, i1 1, i1 0, i1 1, i1 0, i1 1, i1 0, i1 1, i1 0, i1 1, i1 0, i1 1>,
