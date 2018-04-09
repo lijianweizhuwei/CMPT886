@@ -40,7 +40,8 @@ define i32 @main() {
   ret i32 0
 }
 ```
-
+### <25 x i5> Vector Type
+#### <25 x i5> original code
 
 LLVM uses a SelectionDAG-based instruction selector, which translates the LLVM IR code to target machine instructions. We focus on SelectionDAG LegalizeTypes Phase.
 
