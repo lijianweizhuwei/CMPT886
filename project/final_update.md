@@ -42,35 +42,33 @@ define i32 @main() {
   ret i32 0
 }
 ```
-### <17 x i15> Vector Type
-#### <17 x i15> original code
+### <5 x i25> Vector Type
+#### <5 x i25> original code
 
 ```llvm
 define i32 @main() {
-  %a = add <17 x i15> <i15 3, i15 7, i15 11, i15 0, i15 12, i15 14, i15 3, i15 7, i15 11, i15 0, i15 12, i15 14, i15 3, i15 7, i15 11, i15 0, i15 12>, 
-                      <i15 4, i15 13, i15 15, i15 6, i15 22, i15 18, i15 14, i15 17, i15 12, i15 18, i15 13, i15 11, i15 61, i15 76, i15 -21, i15 15, i15 44>
+  %a = add <5 x i25> <i25 3, i25 7, i25 11, i25 0, i25 12>, 
+                     <i25 4, i25 13, i25 15, i25 6, i25 22>
   ret i32 0
 }
 ```
-#### <17 x i15> Type Legalization Code(Ideal)
+#### <5 x i25> Type Legalization Code(Ideal)
 Ideally, we need to split the vector at first. Then we will widen and promote each vector later. Here is the generate llvm code after IR pass. We can do that in one instruction.
 
 ```llvm
 define i32 @main() {
-  %a0 = add <8 x i16> <i16 0, i16 12, i16 14, i16 3, i16 7, i16 11, i16 0, i16 12>,
-                      <i16 18, i16 13, i16 11, i16 61, i16 76, i16 -21, i16 15, i16 44>
-  %a1 = add <8 x i16> <i16 7, i16 11, i16 0, i16 12, i16 14, i16 3, i16 7, i16 11>,
-                      <i16 13, i16 15, i16 6, i16 22, i16 18, i16 14, i16 17, i16 12>
-  %a2 = add <8 x i16> <i16 3, i16 0, i16 0, i16 0, i16 0, i16 0, i16 0, i16 0>,
-                      <i16 4, i16 0, i16 0, i16 0, i16 0, i16 0, i16 0, i16 0>
+  %a0 = add <4 x i32> <i32 7, i32 11, i32 0, i32 12>,
+                      <i32 13, i32 15, i32 6, i32 22>
+  %a1 = add <4 x i32> <i32 0, i32 0, i32 0, i32 3>,
+                      <i32 0, i32 0, i32 0, i32 4>
 ret i32 0
 }
 ```
 #### <17 x i15> Type Legalization Code(Actual)
 ```llvm
 define i32 @main() {
-  %a = add <8 x i16> <i16 0, i16 12, i16 14, i16 3, i16 7, i16 11, i16 0, i16 12>,
-                      <i16 18, i16 13, i16 11, i16 61, i16 76, i16 -21, i16 15, i16 44>
+  %a = add <4 x i32> <i32 7, i32 11, i32 0, i32 12>,
+                     <i32 13, i32 15, i32 6, i32 22>
 ret i32 0
 }
 ```
@@ -80,9 +78,9 @@ Why we only return the first vector in Type Legalization. The reason is that we 
 ### Simple example
 ```llvm
 define i32 @main() {
-  %a = add <17 x i15> <i15 3, i15 7, i15 11, i15 0, i15 12, i15 14, i15 3, i15 7, i15 11, i15 0, i15 12, i15 14, i15 3, i15 7, i15 11, i15 0, i15 12>, 
-                      <i15 4, i15 13, i15 15, i15 6, i15 22, i15 18, i15 14, i15 17, i15 12, i15 18, i15 13, i15 11, i15 61, i15 76, i15 -21, i15 15, i15 44>
-  %b = add <17 x i15> %a, <i15 2, i15 11, i15 35, i15 16, i15 26, i15 19, i15 20, i15 21, i15 31, i15 33, i15 5, i15 7, i15 91, i15 96, i15 21, i15 3, i15 101>                   
+  %a = add <5 x i25> <i25 3, i25 7, i25 11, i25 0, i25 12>, 
+                     <i25 4, i25 13, i25 15, i25 6, i25 22>
+  %b = add <5 x i25> %a, <i25 3, i25 2, i25 17, i25 4, i25 7>                 
   ret i32 0
 }
 ```
