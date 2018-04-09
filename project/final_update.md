@@ -122,6 +122,7 @@ define i32 @main() {
 ```
 ## The Decision model in a series of instructions
 ### A sequence of instructions
+Here is an example of a series of llvm instruction. From each line we need to decide whether we 
 ```llvm
 define i32 @main() {
   %1 = add <6 x i5> <i5 7, i5 11, i5 0, i5 12, i5 7, i5 1>,
