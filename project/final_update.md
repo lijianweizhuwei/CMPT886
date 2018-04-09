@@ -2,7 +2,7 @@
 
 
 ## The Difference Between Swar and Type Legalization
-We use some special vectors operation as example.
+We use some special vectors operation as example to show the difference generate code after swar or type legalization pass.
 
 ### <6 x i3> Vector Type
 #### original code
