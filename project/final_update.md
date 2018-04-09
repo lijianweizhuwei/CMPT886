@@ -147,11 +147,11 @@ ret i32 0
 ### IR Pass for each instruction decision
 ```C++
   if (decision_flag == 1) {
-     Swar * swar = new Swar(vector1, vector2, addInst);
+     Swar * swar = new Swar(vector1, vector2, BinopInst);
      result = swar->operate();
   }else if (decision_flag == 2){
      errs() << "We are trying to legalize " <<":\n";
-     Type_Legalization * type_legalization = new Type_Legalization(vector1, vector2, addInst);
+     Type_Legalization * type_legalization = new Type_Legalization(vector1, vector2, BinopInst);
      result = type_legalization->legalize();
   }
 ```
