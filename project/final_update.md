@@ -73,7 +73,9 @@ ret i32 0
 }
 ```
 
-Why we only return the first vector in Type Legalization. The reason is that we have a problem if a variable is called multiple times in a series of instructions. The following llvm instruction is a simple example. The variable a is been used 2 times. However, it will be splitted in the first step. We cannot use the ideal type legalization method in the next line. Therefore, we only return the first vector(which means we only return the low bits data). 
+Why we only return the first vector in Type Legalization. The reason is that we have a problem if a variable is called multiple times in a series of instructions. The following llvm instruction is a simple example. The variable a is been used 2 times. However, it will be splitted in the first step. We cannot use the ideal type legalization method in the next line. Therefore, we only return the first vector(which means we only return the low bits data).
+
+### Simple example
 ```llvm
 define i32 @main() {
   %a = add <17 x i15> <i15 3, i15 7, i15 11, i15 0, i15 12, i15 14, i15 3, i15 7, i15 11, i15 0, i15 12, i15 14, i15 3, i15 7, i15 11, i15 0, i15 12>, 
