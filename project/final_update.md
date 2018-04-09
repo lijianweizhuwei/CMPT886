@@ -40,8 +40,28 @@ define i32 @main() {
   ret i32 0
 }
 ```
-### <25 x i5> Vector Type
-#### <25 x i5> original code
+### <17 x i15> Vector Type
+#### <17 x i15> original code
+
+```llvm
+define i32 @main() {
+  %a = add <17 x i15> <i15 3, i15 7, i15 11, i15 0, i15 12, i15 14, i15 3, i15 7, i15 11, i15 0, i15 12, i15 14, i15 3, i15 7, i15 11, i15 0, i15 12>, 
+                      <i15 4, i15 13, i15 15, i15 6, i15 22, i15 18, i15 14, i15 17, i15 12, i15 18, i15 13, i15 11, i15 61, i15 76, i15 -21, i15 15, i15 44>
+  ret i32 0
+}
+```
+#### <17 x i15> Type Legalization Code(Ideal)
+Ideally, we need to split the vector at first. Then we will widen and promote each vector later.Here is the generate llvm code after IR pass.
+
+```llvm
+define i32 @main() {
+  %a0 = add <8 x i16> <i16 0, i16 12, i16 14, i16 3, i16 7, i16 11, i16 0, i16 12>,
+                      <i16 18, i16 13, i16 11, i16 61, i16 76, i16 -21, i16 15, i16 44>
+  %a1 = add <8 x i16> <i16 7, i16 11, i16 0, i16 12, i16 14, i16 3, i16 7, i16 11>,
+                      <i16 13, i16 15, i16 6, i16 22, i16 18, i16 14, i16 17, i16 12>
+  %a2 = add <8 x i16> <i16 3, i16 0, i16 0, i16 0, i16 0, i16 0, i16 0, i16 0>,
+                      <i16 4, i16 0, i16 0, i16 0, i16 0, i16 0, i16 0, i16 0>                  
+```
 
 LLVM uses a SelectionDAG-based instruction selector, which translates the LLVM IR code to target machine instructions. We focus on SelectionDAG LegalizeTypes Phase.
 
