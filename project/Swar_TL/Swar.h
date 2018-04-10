@@ -23,6 +23,7 @@
 #include "llvm/IR/Instruction.h"
 #include "llvm/IR/Instructions.h"
 #include "llvm/IR/LLVMContext.h"
+#include "llvm/Support/Casting.h"
 #include <stdlib.h>
 
 using namespace llvm;
@@ -36,8 +37,9 @@ namespace SWAR_TL {
         BinaryOperator * inst;
 
     public:
-        llvm::Constant * generateMask(llvm::VectorType * vectorType, bool isLow);
+        llvm::Value * generateMask(llvm::VectorType * vectorType, bool isLow);
         llvm::Value * swar_add(llvm::Value * a1, llvm::Value * a2, llvm::VectorType * vectorType, llvm::Instruction * addInst);
+        llvm::Value * swar_sub(llvm::Value * a1, llvm::Value * a2, llvm::VectorType * vectorType, llvm::Instruction * subInst);
         llvm::Value * bitcast(llvm::Value * vector, llvm::BinaryOperator * addInst);
 
     public:
