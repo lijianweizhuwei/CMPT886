@@ -140,6 +140,16 @@ Value * Type_Legalization::binaryOp(Value * vector1, Value * vector2, Instructio
             instr = BinaryOperator::Create(Instruction::Mul, vector1, vector2, "", binaryOpInst);
             break;
 
+        case Instruction::SDiv:
+            return_value = Builder.CreateMul(vector1, vector2);
+            instr = BinaryOperator::Create(Instruction::SDiv, vector1, vector2, "", binaryOpInst);
+            break;
+
+        case Instruction::UDiv:
+            return_value = Builder.CreateMul(vector1, vector2);
+            instr = BinaryOperator::Create(Instruction::UDiv, vector1, vector2, "", binaryOpInst);
+            break;
+
         default :
             return_value = Builder.CreateAdd(vector1, vector2);   // 默认暂时是Add
             instr = BinaryOperator::Create(Instruction::Add, vector1, vector2, "", binaryOpInst);
