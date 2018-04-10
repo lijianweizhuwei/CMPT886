@@ -69,7 +69,7 @@ Value * Type_Legalization::split(Value * vector, const int origin_numElems, cons
     bool widen_element_flag = isPowerOf2(origin_elemSize);
     int after_split_eleSize = pow(2, nextPowerOf2(origin_elemSize));          
     int after_split_numElems = pow(2, nextPowerOf2(origin_numElems));
-    int split_vect_maxelenum = registerSize / after_split_eleSize;
+    int split_vect_maxelenum = large_registerSize / after_split_eleSize;
     int split_vect_num = ceil(float(origin_numElems) / split_vect_maxelenum);
     errs() << "after_split_eleSize: " << after_split_eleSize <<":\n";
     errs() << "after_split_numElems: " << after_split_numElems <<":\n";
@@ -188,7 +188,8 @@ Value * Type_Legalization::legalize(){
         int total_size = pow(2,nextPowerOf2(origin_elemSize)) * pow(2, nextPowerOf2(origin_numElems));    // pow(2, nextPowerOf2(numElems))
 
         // check whether we need split or not
-        if (total_size > registerSize){
+
+        if (total_size > large_registerSize){
             vector = split(vector, origin_numElems, origin_elemSize);
 
             split_flag = true;
@@ -197,6 +198,10 @@ Value * Type_Legalization::legalize(){
            }else{
                 split_flag_2 = true;
            }                
+        }else if (total_size > small_registerSize){
+            registerSize = large_registerSize;
+        }else{
+            registerSize = small_registerSize;
         }
 
         // step 1: widen the vector
