@@ -184,7 +184,7 @@ Value * Type_Legalization::legalize(){
         errs() << "nextPowerOf2 for numElems vector " << vec_num << ": "  << nextPowerOf2(origin_numElems) << ":\n";
         errs() << "************************************"<< ":\n";
 
-        if(origin_elemSize >= 8 && isPowerOf2(origin_numElems) && origin_vectorSize == registerSize){
+        if(origin_elemSize >= 8 && isPowerOf2(origin_numElems) && （origin_vectorSize == small_registerSize || （origin_vectorSize == large_registerSize)）{
             errs() << "there is no need to type legalization vector " << vec_num << ":\n";   //there is no need to type legalization
             continue;
         }
@@ -200,6 +200,7 @@ Value * Type_Legalization::legalize(){
         // check whether we need split or not
 
         if (total_size > large_registerSize){
+            errs() << "We need to split the vector" << ":\n"; 
             vector = split(vector, origin_numElems, origin_elemSize);
 
             split_flag = true;
@@ -213,6 +214,8 @@ Value * Type_Legalization::legalize(){
         }else{
             registerSize = small_registerSize;
         }
+
+        errs() << "registerSize: " << registerSize << ":\n"; 
 
         // step 1: widen the vector
         int numElems = origin_numElems;
