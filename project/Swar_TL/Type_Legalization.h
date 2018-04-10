@@ -28,8 +28,10 @@ namespace SWAR_TL {
 
         private:
 
-            const int registerSize = 128; 
+            const int small_registerSize = 128;
+            const int large_registerSize = 256; 
             const int split_max_num = 10;
+            int registerSize;
             Value * vector1;
             Value * vector2;
             BinaryOperator * inst;

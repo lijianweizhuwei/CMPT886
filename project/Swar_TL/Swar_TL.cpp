@@ -24,6 +24,7 @@
 #include "llvm/IR/Instructions.h"
 #include "llvm/IR/LLVMContext.h"
 #include "./Swar.h"
+#include "./Type_Legalization.h"
 #include <stdlib.h>
 
 using namespace llvm;
@@ -38,7 +39,7 @@ namespace {
             errs() << function.getName() << ":\n";
 
             bool modified = false;
-            int flag = 0;
+            int flag = 1;
             Value * result = nullptr;
 
             for (auto &block : function) {
@@ -47,7 +48,7 @@ namespace {
                 for (auto &inst : block) {
                     llvm::BinaryOperator * addInst = dyn_cast<llvm::BinaryOperator>(&inst);
 
-                    if (!inst.isBinaryOp()) {
+                    if (!inst.isBinaryOp()) {   // || inst.getOpcode() != Instruction::Add
                         continue;
                     }
 
@@ -57,23 +58,28 @@ namespace {
                     auto vectorType = dyn_cast<VectorType>(vector1->getType());
                     auto elemSize = vectorType->getScalarSizeInBits();
                     auto numElems = vectorType->getNumElements();
-
-                    /****   identify right type   ******/
+                     /****   identify right type   ******/
                     errs() << "    from vector <" << numElems << " x i" << elemSize << ">\n";
 
-                    auto vectorSize = elemSize * numElems;
-                    if (vectorSize > 128) { // larger than 128
-                        errs() << "Length larger than 128\n";
-                        continue;
-                    } else if (vectorSize == 128 && elemSize % 8 == 0) {
-                        errs() << "No need to type legalization";
-                        continue;
-                    }
-                    /****   end identify right type    ******/
+                    // auto vectorSize = elemSize * numElems;
+                    // if (vectorSize > 128) { // larger than 128
+                    //     errs() << "Length larger than 128\n";
+                    //     //only choose type legalization or original code
+                    //     continue;
+                    // } else if (vectorSize == 128 && elemSize % 8 == 0) {
+                    //     errs() << "No need to type legalization";
+                    //     continue;
+                    // }
+
 
                     if (flag == 0) {
                         Swar * swar = new Swar(vector1, vector2, addInst);
                         result = swar->operate();
+                    }else{
+
+                        errs() << "We are trying to legalize " <<":\n";
+                        Type_Legalization * type_legalization = new Type_Legalization(vector1, vector2, addInst);
+                        result = type_legalization->legalize();
                     }
 
                     addInstsToErase.push_back(addInst);

@@ -55,8 +55,14 @@ Value * Type_Legalization::widen(Value * vector, const int numElems, const int e
     Type* vecTy = VectorType::get(elemunTy, widen_numElems);
     Value* widen_vec = UndefValue::get(vecTy);
 
-    for (int i = 0; i < numElems; ++i){
-        Value *elemValue = Builder.CreateExtractElement(vector, i);
+    for (int i = 0; i < widen_numElems; ++i){
+        Value *elemValue;
+        Type * castTy = llvm::IntegerType::get(Builder.getContext(), elemSize);
+        if (i < numElems){
+             elemValue = Builder.CreateExtractElement(vector, i);
+        }else{
+            elemValue = llvm::UndefValue::get(castTy);
+        }
         widen_vec = Builder.CreateInsertElement(widen_vec, elemValue, i);   //BinaryOperator::Create(Instruction::And, (Value *)a1, (Value *)lmask, "", addInst);
     }
     return widen_vec;
@@ -140,16 +146,6 @@ Value * Type_Legalization::binaryOp(Value * vector1, Value * vector2, Instructio
             instr = BinaryOperator::Create(Instruction::Mul, vector1, vector2, "", binaryOpInst);
             break;
 
-        case Instruction::SDiv:
-            return_value = Builder.CreateMul(vector1, vector2);
-            instr = BinaryOperator::Create(Instruction::SDiv, vector1, vector2, "", binaryOpInst);
-            break;
-
-        case Instruction::UDiv:
-            return_value = Builder.CreateMul(vector1, vector2);
-            instr = BinaryOperator::Create(Instruction::UDiv, vector1, vector2, "", binaryOpInst);
-            break;
-
         default :
             return_value = Builder.CreateAdd(vector1, vector2);   // 默认暂时是Add
             instr = BinaryOperator::Create(Instruction::Add, vector1, vector2, "", binaryOpInst);
@@ -184,7 +180,7 @@ Value * Type_Legalization::legalize(){
         errs() << "nextPowerOf2 for numElems vector " << vec_num << ": "  << nextPowerOf2(origin_numElems) << ":\n";
         errs() << "************************************"<< ":\n";
 
-        if(origin_elemSize >= 8 && isPowerOf2(origin_numElems) && （origin_vectorSize == small_registerSize || （origin_vectorSize == large_registerSize)）{
+        if(origin_elemSize >= 8 && isPowerOf2(origin_numElems) && origin_vectorSize == registerSize){
             errs() << "there is no need to type legalization vector " << vec_num << ":\n";   //there is no need to type legalization
             continue;
         }
@@ -200,7 +196,6 @@ Value * Type_Legalization::legalize(){
         // check whether we need split or not
 
         if (total_size > large_registerSize){
-            errs() << "We need to split the vector" << ":\n"; 
             vector = split(vector, origin_numElems, origin_elemSize);
 
             split_flag = true;
@@ -215,7 +210,7 @@ Value * Type_Legalization::legalize(){
             registerSize = small_registerSize;
         }
 
-        errs() << "registerSize: " << registerSize << ":\n"; 
+        errs() << "Registter Size: " << registerSize << ":\n"; 
 
         // step 1: widen the vector
         int numElems = origin_numElems;
