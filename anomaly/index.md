@@ -1,20 +1,20 @@
 # Error Bit Stream
 
-Suppose we have the regular expression `<[a-zA-Z]+>` and wish to find all instance which are not in this pattern and regard them as errors, then form the error bit stream. For example:
+Suppose we have the regular expression `T[AG]+C` and wish to find all instance which are not in this pattern and regard them as errors, then form the error bit stream. For example:
 
 ```
-   input data      <My> <name] <is> err <jianwei> <>li>
-error bit stream   ..........1......111............1...
+   input data      TGACTAGGAATAGCGAATAGAGGAGCTCAGC
+error bit stream   .........1....111..........1...
 ```
-There are three errors, `]`, `err` and `>`, the error bit stream we want it shown as above.
+There are three errors, `A`, `GAA` and `C`, the error bit stream we want it shown as above.
 
 ### How can we achieve it?
-We know that **Parabix** uses the *basis bit streams* to construct *character-class bit streams* in which each 1 bit indicates the presence of a significant character (or class of characters) in the parsing process. The *advance* operation is mentioned in class:
+**Parabix** uses the *basis bit streams* to construct *character-class bit streams* in which each 1 bit indicates the presence of a significant character (or class of characters) in the parsing process. The *advance* operation is as following:
 
 ```
- input data     <My> <name] <is> err <jianwei> <>li>
-     C0         1....1......1........1.........1....   character-class bit stream of <
-L0=advance(C0)  .1....1......1........1.........1...   character-class bit stream after advance
+ input data     TGACTAGGAATAGCGAATAGAGGAGCTCAGC
+     C0         1...1.....1......1........1....   character-class bit stream of T
+L0=advance(C0)  .1...1.....1......1........1...   character-class bit stream after advance
 ```
 The bit after advance is called cursor bit.
 
